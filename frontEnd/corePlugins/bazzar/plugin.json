@@ -1,0 +1,5 @@
+{
+    "author":"leolee",
+    "depends":["toolBarItem","configPage"],
+    "describe":"这是noob的插件集市模块,它可以检索自带插件、集市插件和社区插件"
+}

@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "libarchive.js": "^1.3.0",
+    "mkdirp": "^2.1.5",
+    "tar": "^6.1.13",
+    "ws": "^8.12.1"
+  },
+  "name": "noob-core",
+  "version": "1.0.4",
+  "description": "noob的核心模块,用于为noob子服务和插件提供功能支持",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"抱歉,noob暂时没有写测试\" && exit 1"
+  },
+  "author": "leolee",
+  "license": "AGPL-3.0-or-later"
+}

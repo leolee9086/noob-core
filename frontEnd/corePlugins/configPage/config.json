@@ -1,0 +1,35 @@
+{
+  "toolBarItem": {
+    "selfURL": "/snippets/noobcore/frontEnd/corePlugins/toolBarItem/",
+    "selfPath": "/data/snippets/noobcore/frontEnd/corePlugins/toolBarItem/",
+    "instance": {
+      "说明文档路径": "D:/noob功能库/data/snippets/noobPluginsReadme/toolBarItem_readme.md"
+    },
+    "actived": true
+  },
+  "configPage": {
+    "selfURL": "/snippets/noobcore/frontEnd/corePlugins/configPage/",
+    "selfPath": "/data/snippets/noobcore/frontEnd/corePlugins/configPage/",
+    "instance": {
+      "说明文档路径": "D:/noob功能库/data/snippets/noobPluginsReadme/configPage_readme.md",
+      "设置页标题": "插件设置"
+    },
+    "actived": true
+  },
+  "bazzar": {
+    "selfURL": "/snippets/noobcore/frontEnd/corePlugins/bazzar/",
+    "selfPath": "/data/snippets/noobcore/frontEnd/corePlugins/bazzar/",
+    "instance": {
+      "说明文档路径": "D:\\noob功能库\\data\\snippets\\noobPluginsReadme\\bazzar_readme.md"
+    },
+    "actived": true
+  },
+  "test": {
+    "selfURL": "/appearance/themes/midnight/themePlugins/test/",
+    "selfPath": "/conf//appearance/themes/midnight/themePlugins/test/",
+    "instance": {
+      "说明文档路径": "D:\\noob功能库\\data\\snippets\\noobPluginsReadme\\midnight_readme.md"
+    },
+    "actived": true
+  }
+}
