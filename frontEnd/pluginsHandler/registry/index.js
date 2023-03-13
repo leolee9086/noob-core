@@ -1,6 +1,8 @@
 import { readFile, writeFile } from "../../polyfills/fs.js";
+import { coreDir } from "../../../file/noobFile.js";
+import { coreURL } from "../../../file/noobURL.js";
 let importMapContent = await readFile(
-  "/data/snippets/noobcore/frontEnd/pluginsHandler/registry/importMap.json"
+  coreDir+ "/frontEnd/pluginsHandler/registry/importMap.json"
 );
 let script = document.createElement("script");
 script.innerHTML = importMapContent;
@@ -8,7 +10,7 @@ script.setAttribute("type", "importMap");
 let 插件iframe = document.createElement("iframe");
 插件iframe.setAttribute(
   "src",
-  `/snippets/noobCore/frontEnd/pluginsHandler/registry/pluginRegistry.html`
+  coreURL+`/frontEnd/pluginsHandler/registry/pluginRegistry.html`
 );
 插件iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
 插件iframe.setAttribute("style", "display:none");

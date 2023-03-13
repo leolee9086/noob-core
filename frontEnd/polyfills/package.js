@@ -14,6 +14,10 @@ export class npm {
     return await res.json();
   }
   async 获取包最新版本属性(包名) {
+    if(this.tegistry.indexOf('npmmirror')>=0){
+        //在拉取之前要求npmirror同步一次
+        await fetch(this.registry+'/sync/'+包名)
+    }
     let 包属性 = await this.获取包属性(包名);
     function a(包属性) {
       let 最新版本 = { publish_time: 0 };
