@@ -1,4 +1,4 @@
-{
+export default {
   "application/1d-interleaved-parityfec": {
     "source": "iana"
   },
