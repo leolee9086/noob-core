@@ -1,0 +1,15 @@
+{
+  "name": "noob-service-vite",
+  "version": "1.0.0",
+  "description": "用于思源noob主题的vite服务",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "leolee9086",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
+    "vite": "^2.9.15"
+  }
+}

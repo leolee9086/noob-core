@@ -17,7 +17,7 @@ export function 生成单个dom元素(字符串,事件配置,额外配置) {
     }
     额外配置 && Object.keys(额外配置).forEach(
         属性名 => {
-            DOM元素[属性名]=额外配置[属性名]
+            DOM元素.setAttribute(属性名,额外配置[属性名])
         }
     )
 

@@ -17,7 +17,10 @@ export class  自定义菜单原型{
     }
     菜单状态={}
     判断函数(){}
-    注册自定义菜单项(菜单项){ this.菜单注册表.push(菜单项) }
+    注册自定义菜单项(菜单项){ 
+        this.菜单注册表.push(菜单项) 
+        return this
+    }
     注册自定义子菜单项(查找条件, 子菜单项){
         let 目标菜单项 = this.菜单注册表.find(
             菜单项 => { return 查找条件(菜单项) }
@@ -41,6 +44,8 @@ export class  自定义菜单原型{
                 }
             }
         )
+        return this
+
     }
     删除自定义子菜单项(查找条件函数){
         this.菜单注册表.forEach(
@@ -56,6 +61,11 @@ export class  自定义菜单原型{
                 }
             }
         )
+        return this
+
+    }
+    remove(){
+        window.siyuan.menus.menu.remove()
     }
 }
 export default 自定义菜单

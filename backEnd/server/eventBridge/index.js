@@ -4,12 +4,10 @@ export default class eventBridge {
     this.handlers = {};
     this.id = new Date().getTime();
     this.name = name;
-    if (window.require && require("fs")) {
-      this.serviceID = this.name;
-    }
-    this.初始化(this.id);
+    this.serviceID = serviceID;
+    this.init(this.id);
   }
-  初始化(id) {
+  init(id) {
     let websocketURL = `${
       window.location.protocol === "https:" ? "wss" : "ws"
     }://127.0.0.1:${noob核心后端服务端口号}/bridge?id=${this.id}`;
@@ -175,3 +173,4 @@ export default class eventBridge {
     }
   };
 }
+export {eventBridge as eventBridge}

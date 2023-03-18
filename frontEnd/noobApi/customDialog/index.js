@@ -19,6 +19,9 @@ export class Dialog {
     this.destroyCallback = options.destroyCallback;
     this.options = options;
   }
+  set title(string){
+    this.element.querySelector('.b3-dialog__header').innerHTML=string
+  }
   initElement() {
     this.element = window.parent.document.createElement("div");
 
@@ -26,14 +29,14 @@ export class Dialog {
 <div class="b3-dialog__scrim"${
       this.options.transparent ? 'style="background-color:transparent"' : ""
     }></div>
-<div class="b3-dialog__container" style="width:${this.options.width || "auto"}">
+<div class="b3-dialog__container" id="pluginCustomPanel" style="width:${this.options.width || "auto"};overflow:scroll">
   <svg class="b3-dialog__close fn__a${
     this.disableClose ? " fn__none" : ""
   }"><use xlink:href="#iconClose"></use></svg>
   <div class="b3-dialog__header${
     this.options.title ? "" : " fn__none"
   }" onselectstart="return false;">${this.options.title || ""}</div>
-  <div style="height:${this.options.height || "auto"}">${
+  <div class="b3-dialog__form" style="height:${this.options.height || "60vh"};">${
       this.options.content
     }</div>
 </div></div>`;
@@ -58,6 +61,8 @@ export class Dialog {
           event.stopPropagation();
         });
     }
+    this.formElement=this.element.querySelector('.b3-dialog__form')
+
   }
   show() {
     window.parent.document.body.append(this.element);
@@ -104,5 +109,19 @@ export class Dialog {
         event.preventDefault();
       }
     });
+  }
+  clear(){
+    this.formElement.innerHTML=''
+  }
+  addItem(element){
+    if(element instanceof HTMLElement){
+      this.formElement.appendChild(element)
+    }
+    else if(typeof(element)=='function'){
+      this.formElement.appendChild(()=>{element()})
+    }else if(element.element){
+      this.formElement.appendChild(element.element)
+
+    }
   }
 }

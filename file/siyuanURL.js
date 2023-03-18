@@ -1,4 +1,3 @@
-let document = window.parent.document;
 let currentThemeURL = (
     window.parent.document.getElementById("themeStyle")
     ? window.parent.document.getElementById("themeStyle")
@@ -11,3 +10,6 @@ currentThemeURL = currentThemeURL
 export { currentThemeURL as currentThemeURL };
 export let snippetsURL = "/snippets";
 export let appearanceURL = "/appearance";
+export let dataDir = '/data'
+export let snippetsDir = dataDir+'/snippets'
+export let currentThemeDir = '/conf/'+currentThemeURL

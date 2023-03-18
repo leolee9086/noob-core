@@ -87,7 +87,7 @@ export class Plugin {
     });
     Plugin.prototype[接口配置.中文名] = 接口值;
     Plugin.prototype[接口配置.英文名] = 接口值;
-    if (require) {
+    if (window.parent.require) {
       let 现有文档内容;
       this.说明文档路径 = this.说明文档路径.replace(/\\/g, "/");
       if (require("fs").existsSync(this.说明文档路径)) {
@@ -120,7 +120,7 @@ ${接口配置.返回值}
 
 ${接口配置.返回值}
             `;
-      if (require) {
+      if (window.parent.require) {
         console.log(require('fs'))
         require("fs").writeFileSync(this.说明文档路径, 现有文档内容);
       }

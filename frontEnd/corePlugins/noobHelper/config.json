@@ -1,0 +1,10 @@
+[
+  {
+    "selector": "[data-type=\"NodeParagraph\"]",
+    "helpID": "20210104090624-hq3v2ah"
+  },
+  {
+    "selector": "[data-type=\"NodeHeading\"]",
+    "helpID": "20210104090624-hq3v2ah"
+  }
+]

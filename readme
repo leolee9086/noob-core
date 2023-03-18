@@ -20,6 +20,13 @@ noobInstaller是一个小安装工具,分为主题版和插件版.
 
 方法是将noobInstaller放置于主题文件夹内,然后通过import的方式进行引入.
 
+### 直接内置于主题中
+
+需要将noobcore文件夹（包括npm install之后的node_modules）放置到主题文件目录，
+
+并且在theme.js中通过import('./noobcore/index.js')引入。
+
+这会在用户的snippets中也有noobcore时造成一些问题，不建议使用这种方式安装。
 ## 一些约定
 
 ### 命名

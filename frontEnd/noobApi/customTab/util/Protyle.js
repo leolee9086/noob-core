@@ -10,5 +10,5 @@ export   function 获取protyle原型(){
         return layout.model.editor.constructor
     }
 }
-let  Protyle = await 重复执行直到返回(获取protyle原型)
+let  Protyle = await 重复执行直到返回(获取protyle原型,500,'这是用于获取内部类型的函数,如果它执行多次,可以尝试打开一个页签来消除这个警告')
 export {Protyle as Protyle}

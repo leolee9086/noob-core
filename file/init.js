@@ -1,3 +1,6 @@
-import { initAllFile } from "./util/file.js";
-await initAllFile()
-import { 初始化端口文件 } from "../backEnd/server/util/port.js";
+import { exists,writeFile,initFile,mkdir } from "../frontEnd/polyfills/fs.js";
+import {pluginsConfigPath,pluginReadmeDir, tempDir,customPluginDir, portPath} from './noobURL.js'
+await initFile(pluginsConfigPath,'{}')
+await initFile(portPath,'{}')
+await mkdir(tempDir)
+await mkdir(pluginReadmeDir)

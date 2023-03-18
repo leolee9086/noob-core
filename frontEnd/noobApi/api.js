@@ -71,7 +71,7 @@ let noobApi = {
   reload: () => {
     window.parent.location.reload();
   },
-  bazzar:{
+  bazaar:{
     npm
   },
   集市:{

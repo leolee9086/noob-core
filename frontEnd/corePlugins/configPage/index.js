@@ -1,5 +1,7 @@
 import { Plugin, kernelApi, frontEndApi } from "siyuan";
 import { mergeConfig } from "./util/config.js";
+import { configPageBinder } from "./util/configPageBinder.js";
+console.log(window)
 let customPanel = (地址) => {
   return `<div class="fn__flex fn__flex-1  fn__flex-column">   
     <iframe   
@@ -15,6 +17,22 @@ let customPanel = (地址) => {
 </div> 
     `;
 };
+let uncircleString = (from,...args)=>{
+  let cache = [];
+  let str = JSON.stringify(from, function(key, value) {
+      if (typeof value === 'object' && value !== null) {
+          if (cache.indexOf(value) !== -1) {
+              return;
+          }
+          cache.push(value);
+      }
+      return value;
+  });
+  cache = null;
+  str =JSON.stringify(JSON.parse(str),...args) 
+  return str
+
+}
 export default class configPage extends Plugin {
   constructor() {
     super();
@@ -40,7 +58,7 @@ export default class configPage extends Plugin {
     await this.getConfig();
     console.log(window._registry);
     this.config = mergeConfig(this.config, window._registry);
-    let oldConfig = JSON.stringify(this.config);
+    let oldConfig = uncircleString(this.config);
     let html = "";
     Object.getOwnPropertyNames(this.config).forEach((plugin) => {
       html += `
@@ -52,7 +70,7 @@ export default class configPage extends Plugin {
       <div class="fn__space"></div>
       
       `;
-      if (window._registry[plugin]/*.type == "custom"*/) {
+      if (window._registry[plugin].type == "custom") {
         html += `
         <input class="b3-switch fn__flex-center" id="plugin_${plugin}" type="checkbox" ${
           this.config[plugin]["actived"] ? "checked" : ""
@@ -69,7 +87,7 @@ export default class configPage extends Plugin {
       width: "90vw",
       destroyCallback: async () => {
         console.log(this.config, window._registry);
-        if (oldConfig !== JSON.stringify(this.config)) {
+        if (oldConfig !== uncircleString(this.config)) {
           await this.saveConfig();
           window.parent.location.reload();
         }
@@ -93,13 +111,17 @@ export default class configPage extends Plugin {
       try {
         let url = this.config[name]["selfPath"] + "/plugin.json";
         let meta = await frontEndApi.workspace.readFile(url);
-        console.log(JSON.parse(meta));
-        console.log(
-          this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText
-        );
+        this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText
         this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText =
           JSON.parse(meta).describe;
-      } catch (e) {}
+          this.dialog.element.querySelector(`[data-plugin="${name}"]`).addEventListener('click',()=>{
+            if(window._registry[name]&&window._registry[name].instance.configPage){
+              window._registry[name].instance.configPage.mount(this.dialog)
+            }
+          })
+      } catch (e) {
+        console.error(e)
+      }
     });
   }
   注册插件接口() {
@@ -150,6 +172,20 @@ export default class configPage extends Plugin {
     );
     this.设置插件接口函数(
       {
+        中文名: "生成设置页",
+        英文名: "buildConfigPage",
+        功能: "通过配置创建一个设置页",
+        参数: "配置页参数",
+        返回值: "返回配置页对象",
+        其他: `可以通过this.configPage对象来配置设置页渲染函数,configPage对象应当提供一个mount接口,对话框元素将会被传入这个位置,你可以在此对它进行一些修改`,
+      },
+      async function buildConfig (options)  {
+        this.configPage= new configPageBinder(this,options)
+        return this.configPage
+      }
+    )
+    this.设置插件接口函数(
+      {
         中文名: "保存设置",
         英文名: "saveConfig",
         功能: "将插件的config对象保存到插件文件夹中的config.json文件",
@@ -159,7 +195,7 @@ export default class configPage extends Plugin {
       },
       async function saveConfig  () {
         let res = await frontEndApi.workspace.writeFile(
-          JSON.stringify(this.config || {}, undefined, 2),
+          uncircleString(this.config || {}, undefined, 2),
           this.selfPath + "config.json"
         );
         return res;

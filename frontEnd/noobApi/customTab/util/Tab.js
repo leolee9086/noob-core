@@ -25,7 +25,7 @@ function 获取tab原型() {
     return tab.constructor;
   }
 }
-tab = await 重复执行直到返回(获取tab原型);
+tab = await 重复执行直到返回(获取tab原型,500,'这是用于获取内部类型的函数,如果它执行多次,可以尝试打开一个页签来消除这个警告');
 class customTab extends tab {
   constructor(options) {
     let { panel, title, icon, data, render } = options;

@@ -1,13 +1,5 @@
-import siyuan from "./getSiyuan.js";
-import { Plugin } from "siyuan";
-import { readFile } from "../../polyfills/fs.js";
 window._registry = {};
-
 Object.defineProperties(window, {
-  Plugin: {
-    value: Plugin,
-    writable: false,
-  },
   initPlugin: {
     value: async (pluginClass, pluginName, pluginURL, pluginPath,type) => {
       if (window._registry[pluginName]) {
@@ -21,13 +13,12 @@ Object.defineProperties(window, {
       window._registry[pluginName].selfURL = pluginURL;
       window._registry[pluginName].selfPath = pluginPath;
       window._registry[pluginName].type=type
-
+      window._registry[pluginName]._consturctor=type
       window._registry[pluginName].instance = new pluginClass();
     },
     writable: false,
   },
-  siyuan: {
-    value: siyuan,
-    writable: false,
-  },
 });
+let initPlugin= window.initPlugin
+export {initPlugin as initPlugin}
+export default initPlugin

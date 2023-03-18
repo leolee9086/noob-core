@@ -6,11 +6,14 @@ export let readFile = async (file) => {
       path: file,
     }),
   });
+  if (res.status !== 200) {
+    console.error(`${file}读取错误`);
+  }
   let mime = await res.headers.get("Content-Type");
   if (isText(mime)) {
     return await res.text();
   } else {
-    let buf = await Buffer.from(await res.arrayBuffer());
+    let buf = await res.arrayBuffer();
     return buf;
   }
 };
@@ -63,10 +66,32 @@ export let readDir = async (path) => {
   });
   return 文件URL数组;
 };
-export let exists = (data, path) => {
-  console.log("这个方法还没写完,先别用");
+export let exists = (path) => {
+  if(window.require){
+    return require('fs').existsSync(window.siyuan.config.system.workspace+'/'+path)
+  }
+  return new Promise((resolve, reject) => {
+    fetch("/api/file/getFile", {
+      method: "POST",
+      body: JSON.stringify({
+        path: path,
+      }),
+    })
+      .then((res) => {
+        return res.status;
+      })
+      .then((status) => {
+        console.log(status);
+        if (status == 404) {
+          console.log("此处无法绕过404错误,所以不要纠结了");
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      });
+  });
 };
-export let mkdir = async (data, path) => {
+export let mkdir = async (path) => {
   let data = new FormData();
   data.append("path", path);
   data.append("file", "");
@@ -79,18 +104,31 @@ export let mkdir = async (data, path) => {
   return await res.json();
 };
 export function isText(mime) {
-  if (mime.startsWith("text")) {
+  if (mime && mime.startsWith("text")) {
     return true;
   }
   if (mime == "application/json") {
     return true;
+  }
+  if (mime == "application/x-javascript") {
+    return true;
   } else return false;
 }
-const fs = {
+let fs = {
   readFile,
   writeFile,
   readDir,
   exists,
   mkdir,
 };
+
 export default fs;
+export let initFile = async (path, data) => {
+  if (!(await exists(path))) {
+    if (data === undefined) {
+      await writeFile("", path);
+    } else {
+      await writeFile(data, path);
+    }
+  }
+};

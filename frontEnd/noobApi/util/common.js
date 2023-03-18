@@ -15,7 +15,7 @@ export function 展平树(tree){
     flatten(tree)
     return array
 }
-export function 重复执行直到返回(函数,间隔){
+export function 重复执行直到返回(函数,间隔,警告){
     let 执行次数 =0 
     return new Promise((resolve, reject) => {
         if(!间隔){
@@ -25,7 +25,7 @@ export function 重复执行直到返回(函数,间隔){
             try{
                 执行次数+=1
                 if(执行次数>10){
-                    console.error(函数,'执行过多次，请检查')
+                    console.warn(函数,!警告?'执行过多次，请检查':警告)
                 }
                 let 执行结果 = await 函数()
                 if(执行结果!==undefined){

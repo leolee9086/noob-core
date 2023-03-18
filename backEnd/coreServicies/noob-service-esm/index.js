@@ -1,0 +1,1 @@
+import wihiteList from './whiteList.js'

@@ -1,6 +1,6 @@
 {
     "imports":{
-        "siyuan":"/snippets/noobCore/frontEnd/noobApi/index.js",
-        "defineGlobal":"/snippets/noobCore/frontEnd/pluginsHandler/registry/defineGlobal.js"
+        "siyuan":"/snippets/noobcore/frontEnd/noobApi/index.js",
+        "defineGlobal":"/snippets/noobcore/frontEnd/pluginsHandler/registry/defineGlobal.js"
     }
 }

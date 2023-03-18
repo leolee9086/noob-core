@@ -289,4 +289,4 @@ export class  kernelApiList{
     }
 }
 
-export default new kernelApiList({思源伺服端口:window.location.port})
+export default new kernelApiList({思源伺服端口:window.kernelPort||window.location.port})

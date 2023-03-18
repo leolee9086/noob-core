@@ -21,6 +21,8 @@ let popup = window.siyuan.menus.menu.popup
 window.siyuan.menus.menu.popup = (...args) => {
     //这里我们就可以为所欲为了,菜单内容这个时候已经渲染完成,所以我们这里对菜单进行的改动都会保留到渲染出来的菜单里面.
     //如果是块标菜单，我们就做点啥
+    popup.bind(window.siyuan.menus.menu)(...args)
+
     try {
         for (let 菜单名 in 自定义菜单){
             if(自定义菜单[菜单名].判断函数()&&菜单名!=='当前菜单'){
@@ -32,7 +34,6 @@ window.siyuan.menus.menu.popup = (...args) => {
         console.error(e)
     }
     //为了让菜单能够正常工作,我们把原本的popup函数给加回去
-    popup.bind(window.siyuan.menus.menu)(...args)
 }
 
 export default 自定义菜单
