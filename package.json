@@ -5,7 +5,7 @@
     "ws": "^8.12.1"
   },
   "name": "noob-core",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "noob的核心模块,用于为noob子服务和插件提供功能支持",
   "main": "index.js",
   "scripts": {
