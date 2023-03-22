@@ -1,16 +1,16 @@
 import { coreDir } from '../../file/noobURL.js'
-import { toAbsolute } from '../server/util/abs.js'
 import { Service } from './serviceWindow.js'
 import { requireDep } from '../server/util/requirePolyfill.js'
 import { noob核心后端服务端口号, 思源核心服务端口号 } from '../server/util/port.js'
 import { clear } from './clear.js'
+import { noobCorePath } from '../server/util/requirePolyfill.js'
 clear()
 let fs=require('fs')
 let path = require('path')
 let express = requireDep('express')
 export let loadCoreServicies =async (app)=>{
     console.log('开始加载核心服务')
-    let 核心服务文件夹 =require('path').join(toAbsolute(coreDir),'backEnd','coreServicies')
+    let 核心服务文件夹 =require('path').join(noobCorePath,'backEnd','coreServicies')
     let 核心服务列表 = fs.readdirSync(核心服务文件夹)
     for  (let i=0,len=核心服务列表.length;i<len;i++){
         console.log(`正在加载核心服务${核心服务列表[i]}`)
@@ -28,7 +28,7 @@ export let loadCoreServicies =async (app)=>{
             frame:true,
             TimeOut:5000,
             stayAlive:true,
-            corePath:coreDir
+            corePath:noobCorePath
         }
         await Service.New(options)
     }

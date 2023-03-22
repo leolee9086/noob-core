@@ -1,6 +1,6 @@
 import { Plugin, kernelApi, frontEndApi } from "siyuan";
 
-export default class toolbarItem extends Plugin {
+export default class toolBarItem extends Plugin {
   constructor() {
     super();
     this.设置接口();

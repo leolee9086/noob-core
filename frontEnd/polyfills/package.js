@@ -1,7 +1,8 @@
 import { Archive } from "./static/libarchive.js/main.js";
 import { writeFile } from "./fs.js";
+const metaURL=import.meta.url
 Archive.init({
-  workerUrl: "/snippets/noobcore/frontEnd/polyfills/static/libarchive.js/dist/worker-bundle.js",
+  workerUrl: metaURL.replace('package.js','')+ "/static/libarchive.js/dist/worker-bundle.js",
 });
 
 export class npm {

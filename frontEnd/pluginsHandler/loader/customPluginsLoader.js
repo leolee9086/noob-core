@@ -1,16 +1,28 @@
 import pluginsRegistry from "../registry/index.js";
-import { customPluginURL } from "../../../file/noobURL.js";
-import { readFile, readDir } from "../../polyfills/fs.js";
+import { customPluginURL,noobConfigDir } from "../../../file/noobURL.js";
+import fs, { readFile, readDir } from "../../polyfills/fs.js";
+let pluginSet={}
+if(await fs.exists(noobConfigDir+'/plugins.json')){
+   pluginSet = await fs.readFile(noobConfigDir+'/plugins.json')
+  pluginSet= JSON.parse(pluginSet)
+}
 let PluginList = await readDir(customPluginURL);
 let url = new URL(import.meta.url)
-
 export let loadCustomPlugins = async () => {
   for await (let pluginURL of PluginList) {
+    let pluginInfo= buildInfo(pluginURL)
     pluginsRegistry.loadPlugin(
-      url+   customPluginURL + "/" + pluginURL,
-      pluginURL.replace("/", ""),
-      '/data/'+customPluginURL+'/' + pluginURL,
-      'custom'
+      ...pluginInfo
     );
   }
 };
+export function buildInfo(pluginURL){
+  console.log(pluginSet)
+  return[
+       url.origin+  customPluginURL + "/" + pluginURL,
+         pluginURL.replace("/", ""),
+        '/data/'+customPluginURL+'/' + pluginURL,
+    'custom',
+   (pluginSet[pluginURL.replace("/", "")]&&pluginSet[pluginURL.replace("/", "")]['actived'])?0:1
+  ]
+}

@@ -1,11 +1,14 @@
-import { portPath } from '../../file/noobURL.js'
-import { toAbsolute } from '../server/util/abs.js'
-import { noob核心后端服务端口号, 思源核心服务端口号 } from '../server/util/port.js'
-import {serviceButton} from './UI/button.js'
-import { addcssDirect } from './UI/addcss.js'
-import serverHost from './UI/window.js'
+import { portPath } from "../../file/noobURL.js";
+import { toAbsolute } from "../server/util/abs.js";
+import {
+  noob核心后端服务端口号,
+  思源核心服务端口号,
+} from "../server/util/port.js";
+import { serviceButton } from "./UI/button.js";
+import { addcssDirect } from "./UI/addcss.js";
+import serverHost from "./UI/window.js";
 addcssDirect({
-    content:`
+  content: `
     #status{
         height:50px;
         background-color: var(--b3-toolbar-background);
@@ -38,26 +41,35 @@ addcssDirect({
         Object-fit:contain
     }
     
-    `
-})
-export let Service={
-    New:async (options)=>{
-        let button = new serviceButton(options)
-        let host= button.service = new serverHost(options,button)
-        let injectedPlugin
-        if(require('fs').existsSync(options.path+'/inject.js')){
-            try{
-                console.log(options.URL+'inject.js')
-                injectedPlugin = new (await import(options.URL+'inject.js'))['default']()
-            }catch(e){
-                console.log(e)
-            }
-        }
-        return {
-            button,
-            host,
-            bridge:host.mainBridge,
-            injectedPlugin
-        }
+    `,
+});
+export let Service = {
+  New: async (options) => {
+    let listener;
+
+    if (require("fs").existsSync(options.path + "/listener.js")) {
+      try {
+        listener = new (await import(options.URL + "/listener.js"))["default"]();
+      } catch (e) {
+        console.log(`来自${options.URL}的服务没有提供监听器:`, e);
+      }
     }
-}
+    let button = new serviceButton(options, listener);
+    let host = button.service = new serverHost(options, button, listener);
+    if (listener && listener.startListen) {
+        listener.mainBridge=host.mainBridge
+
+      try {
+        listener.startListen();
+      } catch (e) {
+        console.log(`来自${options.URL}的服务没有正确注册监听器:`, e);
+      }
+    }
+    return {
+      button,
+      host,
+      bridge: host.mainBridge,
+      listener,
+    };
+  },
+};

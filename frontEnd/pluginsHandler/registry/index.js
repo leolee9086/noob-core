@@ -1,9 +1,6 @@
-import { readFile, writeFile } from "../../polyfills/fs.js";
-import { coreURL,coreDir } from "../../../file/noobURL.js";
-import {initPlugin} from './defineGlobal.js'
+import "./defineGlobal.js";
 let loaded = {};
-export  function loadPlugin(插件地址, 插件名, 插件路径) {
-  
+export function loadPlugin(插件地址, 插件名, 插件路径,类别,延迟启动) {
   let pluginLoader = document.getElementById("pluginLoader");
   if (!pluginLoader) {
     pluginLoader = document.createElement("script");
@@ -16,15 +13,13 @@ export  function loadPlugin(插件地址, 插件名, 插件路径) {
     pluginLoader.textContent += `
     await (async()=>{
     try{
-  let module =await import('${插件地址 + "/index.js"}')
-  console.log(module)
-  let pluginName = '${插件名}' 
-  let pluginClass = module['default']
-  
-      await window.initPlugin(pluginClass,'${插件名}','${插件地址}','${插件路径}')
+      let module =await import('${插件地址}')
+      let pluginName = '${插件名}' 
+      let pluginClass = module['default']
+      await window.initPlugin(pluginClass,'${插件名}','${插件地址}','${插件路径}','${类别}',${延迟启动})
   }catch(e){
-      if(e=='TypeError: ${插件名} is not a constructor'){
-          console.error("从'${插件地址}'加载插件${插件名}失败:",'请将插件插件类设为默认导出',e)
+      if(e=='TypeError: pluginClass is not a constructor'){
+          console.error("从'${插件地址}'加载插件${插件名}失败:",'请将插件插件类设为默认导出,并确保类名与包名对应',e)
       }
       else if(e=="ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor"){
           console.error("从'${插件地址}'加载插件${插件名}失败:",'插件类构造函数必须调用super()',e)
@@ -38,18 +33,15 @@ export  function loadPlugin(插件地址, 插件名, 插件路径) {
   }
 }
 export async function run() {
-    document
-      .querySelectorAll('[type="module-shim"]')
-      .forEach((el) => {
-        el.setAttribute("type", "module");
-        el.remove();
-        document.head.appendChild(el);
-      });
-  
+  document.querySelectorAll('[type="module-shim"]').forEach((el) => {
+    el.setAttribute("type", "module");
+    el.remove();
+    document.head.appendChild(el);
+  });
 }
 let registry = {
   loadPlugin,
   run,
-  corePlugins:{}
+  corePlugins: {},
 };
 export default registry;

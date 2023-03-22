@@ -1,34 +1,47 @@
+import fs from "../../polyfills/fs.js";
 import pluginsRegistry from "../registry/index.js";
-import { corePluginURL } from "../../../file/noobURL.js";
-import { readFile, readDir } from "../../polyfills/fs.js";
-let corePluginList = await readDir(corePluginURL);
-let corePluginConfig = {};
-let url = new URL(import.meta.url)
-export let loadCorePlugins = async() => {
-  for await (let pluginURL of corePluginList) {
-  console.log(pluginsRegistry['corePlugins'])
-  let json = JSON.parse(
-    await readFile("/data" + corePluginURL + "/" + pluginURL + "plugin.json")
-  );
-  if (json.depends && json.depends.forEach) {
-    json.depends.forEach((name) => {
-      if (!corePluginConfig[name]) {
-        pluginsRegistry.loadPlugin(
-          `${url.origin}/snippets/noobcore/frontEnd/corePlugins/${name}`, 
-          name,
-          '/data'+corePluginURL + "/" + name + "/",
-          'core');
-        pluginsRegistry['corePlugins'][name] = true;
-      }
-    });
+let metaURL = import.meta.url;
+let origin = new URL(metaURL).origin;
+let corePluginList = await (
+  await fetch(origin + "/noobApi/plugins/listCorePlugins")
+).json();
+corePluginList = corePluginList.data;
+export let loadCorePlugins = async () => {
+  for await (let pluginInfo of corePluginList) {
+    let json = pluginInfo.meta;
+    console.log(json);
+    if (json.depends && json.depends.forEach) {
+      json.depends.forEach((name) => {
+        if (!pluginsRegistry[name]) {
+          let infor = corePluginList.find((item) => {
+            return item.name == name;
+          });
+          console.log(name, infor, corePluginList);
+          if (infor) {
+            pluginsRegistry.loadPlugin(
+              infor.url,
+              infor.name,
+              infor.path,
+              "core"
+            );
+          }
+          pluginsRegistry[name] = true;
+        }
+      });
+    }
+    await load(pluginInfo)
   }
-  if (!pluginsRegistry[pluginURL.replace("/", "")]) {
+};
+
+async function load(pluginInfo) {
+  if (!pluginsRegistry[pluginInfo.name]) {
     pluginsRegistry.loadPlugin(
-      `${url.origin}/snippets/noobcore/frontEnd/corePlugins/${pluginURL}`,
-      pluginURL.replace("/", ""),
-      '/data'+corePluginURL + "/" + pluginURL,
-      'core'
+      pluginInfo.url,
+      pluginInfo.name,
+      pluginInfo.path,
+      "core"
     );
-    pluginsRegistry['corePlugins'][pluginURL.replace("/", "")] = true;
+    pluginsRegistry[pluginInfo.name] = true;
+    await fs.mkdir("conf", "noobConf", pluginInfo.name);
   }
-}};
+}

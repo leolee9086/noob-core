@@ -1,11 +1,8 @@
 import {
   currentThemeURL,
   snippetsURL,
-  currentThemeDir,
   snippetsDir,
 } from "./siyuanURL.js";
-//核心路径,如果是主题附带方式安装，那么就在主题目录下，如果不是，就是在代码片段目录下
-//也就是说，即使代码片段路径下有noob的核心，也会优先加载主题目录下的
 export let coreURL =snippetsURL + "/noobcore";
 //核心插件文件夹路径
 export let corePluginURL = coreURL + "/frontEnd/corePlugins";
@@ -17,7 +14,6 @@ export let pluginReadmeURL = snippetsURL + "/noobReadMe";
 export let customPluginURL = snippetsURL +'/noobCustomPlugins'
 
 //插件核心文件夹路径
-
 export let coreDir =  snippetsDir + "/noobcore";
 export let tempDir = "/temp/noobTemp";
 export let portPath = tempDir + "/port.json";

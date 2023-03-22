@@ -2,7 +2,9 @@ import { toAbsolute } from "../../server/util/abs.js";
 import { coreDir } from "../../../file/noobURL.js";
 import { noob核心后端服务端口号,思源核心服务端口号 } from "../../server/util/port.js";
 import {eventBridge} from "../../server/eventBridge/index.js"
+import { noobCorePath } from "../../server/util/requirePolyfill.js";
 const { BrowserWindow, screen } = require("@electron/remote");
+
 const path = require("path");
 //继承事件触发器
 export class serverHost {
@@ -12,7 +14,7 @@ export class serverHost {
     //加载entry,也就是index.html
     this.reload();
     //自杀计数
-    this.tictok()
+   // this.tictok()
   }
   tictok(){
     this.timer = setTimeout(
@@ -30,6 +32,9 @@ export class serverHost {
  
   reload() {
     let { options } = this;
+    if(this.host&&!this.host.isDestroyed()){
+      this.host.destroy()
+    }
     let host = new BrowserWindow({
       width: screen.getPrimaryDisplay().size.width / 2,
       height: screen.getPrimaryDisplay().workAreaSize.height / 2,
@@ -38,7 +43,7 @@ export class serverHost {
       show: false,
       webPreferences: {
         preload: path.join(
-          toAbsolute(coreDir),
+          noobCorePath,
           'backEnd',
           "serviciesHandler",
           "inject",
@@ -68,8 +73,7 @@ export class serverHost {
         workspaceDir:window.siyuan.config.system.workspaceDir
     })
     this.mainBridge =new eventBridge(options.id+'-main',options.id+'-main')
-    console.log('允许服务信息发送,子服务控制台信息将在此显示')
-    this.mainBridge.on('tiktok',()=>{
+    this.mainBridge.on('tictoc',()=>{
         clearTimeout(this.timer)
     })
   }
@@ -78,12 +82,21 @@ export class serverHost {
     try {
       if (this.host && !this.host.isDestroyed()) {
         this.host.show();
+        this.showing=true
       } else {
         this.reload();
         this.host.show();
+        this.showing=true
+
       }
     } catch (e) {
       console.error(e);
+    }
+  }
+  hide(){
+    if (this.host && !this.host.isDestroyed()) {
+      this.host.hide();
+      this.showing=false
     }
   }
   

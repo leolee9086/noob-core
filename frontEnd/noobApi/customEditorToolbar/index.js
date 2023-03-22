@@ -66,7 +66,9 @@ function 修改工具栏() {
 window.parent.document.addEventListener("click", 修改工具栏)
 
 export default {
-    注册自定义工具栏按钮:注册自定义工具栏按钮,
-    工具栏状态:工具栏状态
+    注册按钮:注册自定义工具栏按钮,
+    registItem:注册自定义工具栏按钮,
+    工具栏状态:工具栏状态,
+    toolbarStatus:工具栏状态
 }
 

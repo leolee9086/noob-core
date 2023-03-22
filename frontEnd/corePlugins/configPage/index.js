@@ -1,7 +1,8 @@
 import { Plugin, kernelApi, frontEndApi } from "siyuan";
+import { noobConfigDir } from "../../../file/noobURL.js";
 import { mergeConfig } from "./util/config.js";
 import { configPageBinder } from "./util/configPageBinder.js";
-console.log(window)
+console.log(window);
 let customPanel = (地址) => {
   return `<div class="fn__flex fn__flex-1  fn__flex-column">   
     <iframe   
@@ -17,26 +18,24 @@ let customPanel = (地址) => {
 </div> 
     `;
 };
-let uncircleString = (from,...args)=>{
+export let uncircleString = (from, ...args) => {
   let cache = [];
-  let str = JSON.stringify(from, function(key, value) {
-      if (typeof value === 'object' && value !== null) {
-          if (cache.indexOf(value) !== -1) {
-              return;
-          }
-          cache.push(value);
+  let str = JSON.stringify(from, function (key, value) {
+    if (typeof value === "object" && value !== null) {
+      if (cache.indexOf(value) !== -1) {
+        return;
       }
-      return value;
+      cache.push(value);
+    }
+    return value;
   });
   cache = null;
-  str =JSON.stringify(JSON.parse(str),...args) 
-  return str
-
-}
+  str = JSON.stringify(JSON.parse(str), ...args);
+  return str;
+};
 export default class configPage extends Plugin {
   constructor() {
     super();
-    console.log(this);
     this.设置页标题 = "插件设置";
     this.注册顶栏按钮("left", {
       图标: "#iconSettings",
@@ -46,21 +45,22 @@ export default class configPage extends Plugin {
       },
     });
     this.注册插件接口();
-    this.刷新设置()
   }
-  async 刷新设置(){
+  async 刷新设置() {
     await this.getConfig();
     this.config = mergeConfig(this.config, window._registry);
     await this.saveConfig();
-
   }
   async openSetting() {
-    await this.getConfig();
-    console.log(window._registry);
+    await this.刷新设置();
+
+   // await this.getConfig();
+    console.log(this.config,window._registry);
     this.config = mergeConfig(this.config, window._registry);
     let oldConfig = uncircleString(this.config);
     let html = "";
     Object.getOwnPropertyNames(this.config).forEach((plugin) => {
+      console.log(window._registry[plugin]);
       html += `
       <label class="b3-label fn__flex">
       <div class="fn__flex-1">
@@ -89,7 +89,9 @@ export default class configPage extends Plugin {
         console.log(this.config, window._registry);
         if (oldConfig !== uncircleString(this.config)) {
           await this.saveConfig();
-          window.parent.location.reload();
+          await this.saveNoobConfig('plugins',this.config)
+         
+          //window.parent.location.reload();
         }
       },
     });
@@ -102,6 +104,8 @@ export default class configPage extends Plugin {
         checkBox.addEventListener("change", (event) => {
           let plugin = event.target.id.replace("plugin_", "");
           this.config[plugin]["actived"] = !this.config[plugin]["actived"];
+          window._registry[plugin]["actived"]=this.config[plugin]["actived"] 
+          this.config[plugin]["actived"] ?this.noobRunPlugin(plugin):null
           event.stopPropagation();
           event.preventDefault();
         })
@@ -109,18 +113,22 @@ export default class configPage extends Plugin {
     this.dialog.show();
     Object.getOwnPropertyNames(this.config).forEach(async (name) => {
       try {
-        let url = this.config[name]["selfPath"] + "/plugin.json";
-        let meta = await frontEndApi.workspace.readFile(url);
-        this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText
+        let meta = window._registry[name].meta;
+        this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText;
         this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText =
-          JSON.parse(meta).describe;
-          this.dialog.element.querySelector(`[data-plugin="${name}"]`).addEventListener('click',()=>{
-            if(window._registry[name]&&window._registry[name].instance.configPage){
-              window._registry[name].instance.configPage.mount(this.dialog)
+          meta.describe;
+        this.dialog.element
+          .querySelector(`[data-plugin="${name}"]`)
+          .addEventListener("click", () => {
+            if (
+              window._registry[name] &&
+              window._registry[name].instance.configPage
+            ) {
+              window._registry[name].instance.configPage.mount(this.dialog);
             }
-          })
+          });
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     });
   }
@@ -157,17 +165,13 @@ export default class configPage extends Plugin {
         返回值: "返回一个对象, 其内容为解析之后的插件设置内容",
         其他: "可以通过调用saveConfig接口来获取设置,需要注意的是存在多个窗口时需要注意设置保存可能有延迟",
       },
-      async function getConfig ()  {
-        let config = await frontEndApi.workspace.readFile(
-          this.selfPath + "config.json"
-        );
-        try{
-        this.config = JSON.parse(config);
-        }catch(e){
-          this.config={}
+      async function getConfig() {
+        let config = await frontEndApi.workspace.readFile(this.configPath);
+        try {
+          this.config = JSON.parse(config);
+        } catch (e) {
+          this.config = {};
         }
-        console.log(this.config,this)
-
       }
     );
     this.设置插件接口函数(
@@ -179,11 +183,11 @@ export default class configPage extends Plugin {
         返回值: "返回配置页对象",
         其他: `可以通过this.configPage对象来配置设置页渲染函数,configPage对象应当提供一个mount接口,对话框元素将会被传入这个位置,你可以在此对它进行一些修改`,
       },
-      async function buildConfig (options)  {
-        this.configPage= new configPageBinder(this,options)
-        return this.configPage
+      async function buildConfig(options) {
+        this.configPage = new configPageBinder(this, options);
+        return this.configPage;
       }
-    )
+    );
     this.设置插件接口函数(
       {
         中文名: "保存设置",
@@ -193,13 +197,65 @@ export default class configPage extends Plugin {
         返回值: "返回一个对象, 其内容为解析之后的插件设置内容",
         其他: "可以通过调用getConfig接口来获取设置,需要注意的是存在多个窗口时需要注意设置保存可能有延迟",
       },
-      async function saveConfig  () {
+      async function saveConfig() {
         let res = await frontEndApi.workspace.writeFile(
           uncircleString(this.config || {}, undefined, 2),
-          this.selfPath + "config.json"
+          this.configPath
         );
         return res;
       }
     );
+    this.设置插件接口函数(
+      {
+        中文名:"保存系统设置",
+        英文名:"saveNoobConfig",
+        功能:"保存针对工作空间启动noob时的设置",
+        参数:{
+          key:"需要保存的参数名称",
+          value:"需要保存的参数值,只能接受能够以json序列化的值"
+        },
+        返回值:"返回一个对象,其内容为解析之后的对应系统设置文件内容",
+        其他:"不建议滥用这个接口,它应该是用于存储系统级别的配置"
+      },
+      async function saveNoobConfig(key,value){
+        console.log(noobConfigDir+'/'+key+'.json')
+       await frontEndApi.workspace.writeFile(uncircleString(value,undefined,2),noobConfigDir+'/'+key+'.json')
+      }
+    )
+    this.设置插件接口函数(
+      {
+        中文名:"开启插件",
+        英文名:"noobRunPlugin",
+        功能:"实例化某个插件,开启它的功能",
+        参数:{
+          name:"需要实例化的插件名称",
+        },
+        返回值:"返回插件的实例",
+        其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
+      },
+       function noobRunPlugin(name){
+        console.log(window._registry,window._registry[name])
+        let constructor =window._registry[name]._constructor.constructor
+        window._registry[name].instance=new constructor()
+        return window._registry[name].instance
+      }
+    )
+    this.设置插件接口函数(
+      {
+        中文名:"关闭插件",
+        英文名:"noobClosePlugin",
+        功能:"反实例化某个插件,尽可能关闭它的功能",
+        参数:{
+          name:"需要反实例化的插件名称",
+        },
+        返回值:"返回插件的实例",
+        其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
+      },
+       function noobClosePlugin(name){
+        let instance =window._registry[name]._constructor
+        instance.onUnload?instance.onUnload():null
+        window._registry[name].instance=undefined
+      }
+    )
   }
 }

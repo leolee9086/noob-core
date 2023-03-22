@@ -38,14 +38,20 @@ ipcRenderer.on("buildBridge", (event, msg) => {
     workspaceDir:{
         value:msg.workspaceDir,
          writable:false
+    },
+    corePath:{
+        value:msg.corePath,
+        writable:false
+
     }
   });
   window.require.setExternalBase(path.join(msg.path,'/node_modules'))
-  window.require.setExternalDeps(path.join(msg.workspaceDir,msg.corePath,'/node_modules'))
+  window.require.setExternalDeps(path.join(msg.corePath,'/node_modules'))
 
   //开始发送计时信号,超时之后窗口会被关闭
+  //这儿是故意写tictoc的
   setInterval(() => {
-    bridge.call(msg.id+'-main',"tiktok",'测试');
+    bridge.call(msg.id+'-main',"tictoc",'tictoc');
   }, 1000);
 });
 

@@ -17,11 +17,11 @@ import { Protyle } from "./customTab/util/Protyle.js";
 import { BlockListEditor } from "./customTab/blockList/index.js";
 //这个接口暂时也不可用
 import {  Dialog } from "./customDialog/index.js";
-import { readFile,writeFile } from "../polyfills/fs.js";
+import { readFile,writeFile,    exists} from "../polyfills/fs.js";
 import { currentThemeURL } from "../../file/siyuanURL.js";
 let noobApi = {
   自定义菜单: 自定义菜单,
-  commonMenu: 自定义菜单,
+  menus: 自定义菜单,
   内容块: block,
   block: block,
   编辑器: {
@@ -32,12 +32,19 @@ let noobApi = {
   },
   editor: {
     toolbar: 自定义悬浮工具栏,
+    addBackgoundImageButton:注册自定义题图按钮,
+    Protyle,
+    BlockListEditor
   },
   核心api: 核心api,
   kernelApi: 核心api,
   DOM工具: {
     生成单个dom元素,
     注册图标,
+  },
+  DOMUtil:{
+    genElement:生成单个dom元素,
+    addIcon:注册图标
   },
   布局: {
     注册自定义tab,
@@ -62,11 +69,15 @@ let noobApi = {
   workspace: {
     readFile: readFile,
     writeFile:writeFile,
+    exists:exists,
     currentThemeURL,
   },
   工作空间: {
     读取文件: readFile,
     写入文件:writeFile,
+    存在:exists,
+    当前主题:currentThemeURL,
+
   },
   reload: () => {
     window.parent.location.reload();

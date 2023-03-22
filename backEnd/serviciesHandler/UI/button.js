@@ -40,8 +40,12 @@ export default class Button {
   }
   bindEvent() {
     this.element.addEventListener("click", () => {
-      if (this.service && !this.service.destoyed) {
-        this.service.show();
+      if (this.service && !this.service.host.isDestroyed()) {
+        if(this.service.showing){
+          this.service.hide()
+        }else{
+          this.service.show()
+        }
       }
     });
     this.element.addEventListener("dblclick", () => {

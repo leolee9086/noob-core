@@ -1,11 +1,13 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "mkdirp": "^2.1.5",
     "ws": "^8.12.1"
   },
   "name": "noob-core",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "noob的核心模块,用于为noob子服务和插件提供功能支持",
   "main": "index.js",
   "scripts": {

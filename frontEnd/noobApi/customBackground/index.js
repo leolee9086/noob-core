@@ -35,7 +35,6 @@ export default function 添加自定义随机背景图(){
 }
 let 自定义题图按钮 = []
 export function 注册自定义题图按钮(按钮选项){
-    
     自定义题图按钮.push(按钮选项)
 }
 function 注入全部题图按钮(){

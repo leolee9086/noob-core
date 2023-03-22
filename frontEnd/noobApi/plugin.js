@@ -21,6 +21,12 @@ export class Plugin {
   get selfPath(){
     return window._registry[this.name]['selfPath']
   }
+  get configPath(){
+    return `conf/noobConf/${this.name}/config.json`
+  }
+  get configDir(){
+    return `conf/noobConf/${this.name}`
+  }
   清理文档(){
     require('fs').writeFileSync(this.说明文档路径,'')
   }
@@ -120,8 +126,7 @@ ${接口配置.返回值}
 
 ${接口配置.返回值}
             `;
-      if (window.parent.require) {
-        console.log(require('fs'))
+      if (window.parent.require&&现有文档内容) {
         require("fs").writeFileSync(this.说明文档路径, 现有文档内容);
       }
     }
