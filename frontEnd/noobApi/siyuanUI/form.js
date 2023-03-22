@@ -1,5 +1,4 @@
-import Pickr from "/snippets/noobcore/frontEnd/noobApi/customDialog/pickr-master/pickr-esm2022.js";
-
+import Pickr from "../customDialog/pickr-master/pickr-esm2022.js";
 export class FormItem {
     constructor(Item, container) {
       this.container = container;
@@ -24,7 +23,6 @@ export class FormItem {
     }
     buildElement(options) {
       let element = document.createElement("input");
-  
       switch (options.type) {
         case "boolean":
           batchSetAttribute(element, {
