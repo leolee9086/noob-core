@@ -7,4 +7,5 @@ export function batchSetAttribute(element, attributes) {
     element.setAttribute(name, attributes[name]);
   });
 }
-
+export {DOM监听器  as DOMwatcher} from './util/DOMwatcher'
+export {DOM监听器} from './util/DOMwatcher'

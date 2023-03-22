@@ -44,9 +44,11 @@ export default defineConfig({
     }),
     vue({ 
       compiler: require("@vue/compiler-sfc") ,
-     // hot:false,
-     // hmr:false
+      hot:false,
+     hmr:false
     }),
   ],
-
+  server:{
+    hmr:false
+  }
 });

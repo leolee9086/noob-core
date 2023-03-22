@@ -1,6 +1,6 @@
 import "./defineGlobal.js";
 let loaded = {};
-export function loadPlugin(插件地址, 插件名, 插件路径,类别,延迟启动) {
+export function loadPlugin(插件地址, 插件名, 插件路径, 类别, 延迟启动) {
   let pluginLoader = document.getElementById("pluginLoader");
   if (!pluginLoader) {
     pluginLoader = document.createElement("script");
@@ -11,7 +11,7 @@ export function loadPlugin(插件地址, 插件名, 插件路径,类别,延迟�
   }
   if (!loaded[插件名]) {
     pluginLoader.textContent += `
-    await (async()=>{
+    await ( async()=>{
     try{
       let module =await import('${插件地址}')
       let pluginName = '${插件名}' 

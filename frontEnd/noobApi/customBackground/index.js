@@ -1,3 +1,4 @@
+import { DOM监听器 } from "../util/DOMwatcher"
 export default function 添加自定义随机背景图(){
     async function 生成随机背景链接() {
         let 请求响应 = await fetch('/snippets/assets/backgrounds/')
@@ -71,5 +72,38 @@ function 生成题图按钮(按钮配置,按钮组){
     );
     按钮组.insertBefore(span, 随机按钮);
 }
-setInterval(注入全部题图按钮,300)
+//setInterval(注入全部题图按钮,300)
 
+new DOM监听器(
+    {
+        监听目标:'.protyle-background__img',
+        监听器回调:注入全部题图按钮
+    }
+)
+function 判定目标(判定元素) {
+    if (!判定元素) {
+        判定元素 = 界面状态.鼠标状态.最后鼠标点击元素
+    }
+    if (判定元素) {
+        switch (判定元素.tagName) {
+            case 'use':
+                return 判定目标(判定元素.parentElement)
+            case 'svg':
+                return 判定目标(判定元素.parentElement)
+            case 'span':
+                return 判定目标(判定元素.parentElement)
+            case 'DIV':
+                if (判定元素.classList && (判定元素.classList.contains('protyle-icons')||判定元素.classList.contains('protyle-background__img'))) {
+                    return true
+                }                    
+        }
+    }
+}
+
+document.addEventListener(
+    'mousemove',(event)=>{
+        if (判定目标(event.target)){
+            注入全部题图按钮
+        }
+    }
+)

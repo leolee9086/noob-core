@@ -53,6 +53,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   if (req.originalUrl.endsWith("/")) {
+    let flag,_entry
     [
       "index.js",
       "index.ts",
@@ -68,11 +69,21 @@ app.use((req, res, next) => {
         ) ||
         fs.existsSync(path.join(workspaceDir, "conf", req.originalUrl, entry))
       ) {
-        res.redirect(req.originalUrl + entry);
-        return;
+        flag=true
+        _entry=entry
       }
     });
-  } else {
+    if(flag){
+      res.redirect(req.originalUrl + _entry);
+      return;
+    }else{
+      console.log(req)
+      if(req.headers.connection!=="Upgrade"){
+        next()
+      }
+    }
+  } 
+  else {
     next();
   }
 });
