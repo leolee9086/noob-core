@@ -20,26 +20,29 @@ noob核心的vite服务和esmsh服务在原版基础上有一些细微的修改,
 
 ### 使用noobInstaller进行安装
 
-noobInstaller是一个小安装工具,分为主题版和插件版.
+noobInstaller是一个小安装工具.
 
-主题版的installer主要是供主题作者使用.
-
-主题作者可以通过它自动拉取noob核心代码并安装.
+可以通过它自动拉取noob核心代码并安装.
 
 方法是将noobInstaller放置于主题文件夹内,然后通过import的方式进行引入.
 
 ### 直接内置于主题中
 
-需要将noobcore文件夹（包括npm install之后的node_modules）放置到主题文件目录，
+需要将noobinstaller放置到主题文件目录.
 
 并且在theme.js中通过import('./noobcore/index.js')引入。
 
-这会在用户的snippets中也有noobcore时造成一些问题，不建议使用这种方式安装。
+### 自定义安装位置
+
+noob可以安装在你电脑上的任何位置(默认为用户家目录),你可以手动安装noob,但是这种方式下需要修改引导脚本,将corePath指向正确的地址.
+
 ## 一些约定
 
-### 命名
+### 包命名
 
 noob的插件应该以noob-plugin-<插件名字>的形式作为包名，便于大家直接通过npmjs.org搜索插件和查看插件的说明等。
+
+除了内置的插件订阅表能够直接访问之外,搜索插件需要能够连接npmjs.com
 
 ### 屏蔽
 
