@@ -1,4 +1,4 @@
-import { noob核心后端服务端口号 } from "./util/port.js";
+import { noob核心后端服务端口号,获取可用端口号,写入端口记录 } from "./util/port.js";
 import {wss} from  "./util/ws.js"
 import { addEventBridge } from "./eventBridge/serverSide.js";
 import EventBridge from "./eventBridge/index.js";
@@ -34,6 +34,14 @@ let 主窗口事件桥 = new EventBridge("noobMain","noobMain")
 })
 主窗口事件桥.handler("time",(data)=>{
     return  new Date().getTime()
+})
+主窗口事件桥.handler("port",async(data)=>{
+    let 端口记录名= data.msg
+    if(!端口记录名){return ''}
+    
+    let 端口号= await 获取可用端口号()
+    await 写入端口记录(端口记录名,端口号)
+    return  端口号
 })
 显示状态消息('noob事件服务器就绪')
 显示状态消息(`noob服务功能可用,安装位置为${noobCorePath},开始加载服务`)

@@ -262,6 +262,10 @@ eventBridge.on("console", (msg) => {
     `<div>${JSON.stringify(msg)}</div>`
   );
 });
+eventBridge.call("noobMain", 'status__msg',{
+  msg:`编译服务器在${port}上启动`
+});
+
 /*
 const VConsole =require('vconsole')
 const vConsole = new VConsole();

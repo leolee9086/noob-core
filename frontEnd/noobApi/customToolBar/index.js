@@ -22,26 +22,56 @@ let 自定义窗口工具栏 = {
       元素.innerHTML = "";
       元素.appendChild(配置.element);
     }
-    if (位置 == 0 || 位置 == "left") {
+    if (位置 === 0 || 位置 === "left") {
       元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__se");
       工具栏元素.insertBefore(元素, 标题元素);
-    } else {
+    } else if(位置===1||位置==='right') {
       元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__sw");
-
       insertAfter(元素, 标题元素);
+    }else{
+      let 插入位置元素
+      try{
+        插入位置元素=工具栏元素.querySelector(位置)
+        console.log(插入位置元素,工具栏元素)
+      }catch(e){
+        console.error(e)
+        插入位置元素=标题元素
+      }
+
+      插入位置元素=插入位置元素||标题元素
+      插入位置元素.offsetX<=标题元素.offsetX?元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__se"):元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__sw")
+      工具栏元素.insertBefore(元素, 插入位置元素);
+
     }
+
   },
   registItem: (...args) => {
     自定义窗口工具栏.注册工具栏按钮(...args);
   },
   移动工具栏图标(元素,位置){
-    if (位置 == 0 || 位置 == "left") {
+    
+    if (位置 === 0 || 位置 === "left") {
       元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__se");
       工具栏元素.insertBefore(元素, 标题元素);
-    } else {
+    } else if(位置===1||位置==='right') {
       元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__sw");
       insertAfter(元素, 标题元素);
+    }else{
+      let 插入位置元素
+      try{
+        插入位置元素=工具栏元素.querySelector(位置)
+        
+        
+      }catch(e){
+        console.error(e)
+        插入位置元素=标题元素
+      }
+      //插入位置元素=插入位置元素||标题元素
+      插入位置元素.offsetX<=标题元素.offsetX?元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__se"):元素.setAttribute("class", "toolbar__item b3-tooltips b3-tooltips__sw")
+      工具栏元素.insertBefore(元素, 插入位置元素);
+
     }
+    
   }
 };
 function insertAfter(newElement, targetElement) {

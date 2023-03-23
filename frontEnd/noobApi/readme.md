@@ -8,7 +8,36 @@ npm install siyuan-noob
 
 ### 使用压缩包安装
 
-直接从noobcore的压缩包中解压，找到noobApi就可以了。
+直接从noobcore的压缩包或者别的什么地方，找到noobApi中的index.js
+
+引入它就可以了。
+
+### 最小安装方式：
+
+直接使用import从esm.sh引入noobApi（如果你的网络状况良好的话应该挺快的）
+
+```js
+import {Plugin,frontEndApi,kernelApi} from 'https://esm.sh/siyuan-noob@latest' 
+```
+
+这样安装之后会缺少一些高级功能，但是对于简单使用来说，完全够用啦~~~
+
+如果你要指定版本号,将@latest改为具体的版本号即可.
+
+esmsh版本号判断有点延迟,所以最好直接指定版本号避免问题出现.
+
+受到vue的启发,noob的各个功能模块也是尽可能"渐进式"的,引入noobAPI实现最基本的功能注入, 引入整个frontEnd(相比api多了pluginHandler和几个核心插件)可以实现最基础的插件开关和更新等,引入整个noobcore则可以实现依赖伺服、插件代码条件编译、vite的部分功能以及子服务（应用）模块。这是基于思源本身有多个环境，运行状况比较复杂而确定的架构方式。
+
+plugin类之后会实现简单的子我管理,也就是自动创建一个开关用于开启和关闭.
+
+#### 在主题中使用
+
+上面说的安装方式在主题当中都是可用的。
+### 有关体积
+
+绝大部分体积来自libarchive.js(用于实现无后端环境的包解压)，作者自己也在考虑要不要将它分离到另外一个子功能包siyuan-pollyfills，必要时再引入，但是这样可能会无法实现插件类的自我的自我更新功能和压缩包文件操作功能，所以还在考虑当中。
+
+如果有更好的方案的话欢迎到GitHub提出.
 
 ## 依赖
 
@@ -36,6 +65,7 @@ noob的plugin类并没有什么魔法操作，只有在配合pluginhandler（这
 
 #### 自定义块标菜单
 
+
 #### 自定义文档树菜单
 
 #### 自定义图片菜单
@@ -60,7 +90,7 @@ noob的plugin类并没有什么魔法操作，只有在配合pluginhandler（这
 
 ### 尚未重构完成的接口
 
-由于noobAPI本身是由naive主题的api重构而来，有一部分接口目前还没有完成。
+由于noobAPI本身是由naive主题的api重构而来，有一部分接口目前还没有完成整合。
 
 它们是
 
@@ -71,3 +101,15 @@ noob的plugin类并没有什么魔法操作，只有在配合pluginhandler（这
 ### 自定义导出格式
 
 ### 自定义关键词菜单（类似自带的斜杠菜单但是可以自行决定唤醒词，例如用|或者@来唤出菜单）
+
+## 捐助
+
+如果它对你有用可以通过爱发电来请作者喝杯咖啡
+
+https://afdian.net/a/leolee9086
+
+## 感谢
+
+libarchivejs：使用了libarchivejs来解压tarball.gz等文件格式。
+
+https://github.com/nika-begiashvili/libarchivejs
