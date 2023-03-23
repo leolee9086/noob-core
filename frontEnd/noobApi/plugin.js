@@ -1,5 +1,5 @@
-import fs from './polyfills/fs.js'
-import { frontEndApi } from 'siyuan-noob';
+import fs from "./polyfills/fs.js";
+import { frontEndApi } from "siyuan-noob";
 let 接口注册表 = [];
 export class Plugin {
   constructor() {
@@ -8,68 +8,76 @@ export class Plugin {
       writable: false,
     });
     this.checkSuper();
-    if(window.require){
-      this.说明文档路径 =require('path').join(
-        window.parent.siyuan.config.system.workspaceDir ,
-        "/data/snippets/noobPluginsReadme/" ,
-        this.name +
-        "_readme.md")
-      this.清理文档()
+    if (window.require) {
+      this.说明文档路径 = require("path").join(
+        window.parent.siyuan.config.system.workspaceDir,
+        "/data/snippets/noobPluginsReadme/",
+        this.name + "_readme.md"
+      );
+      this.清理文档();
     }
-  
   }
   //在帮助菜单里面插入一项,便于自杀
-  buildSelfSwitsh(){
-    
+  buildSelfSwitsh() {
     frontEndApi.menus.helpMenu.注册自定义菜单项({
-      icon:'#iconConfig',
-      label:this.name,
-      render:(options)=>{
-        let element = document.createElement('button')
-        element.setAttribute('class','b3-menu__item')
-        element.innerHTML=`
+      icon: "#iconConfig",
+      label: this.name,
+      render: (options) => {
+        let element = document.createElement("button");
+        element.setAttribute("class", "b3-menu__item");
+        element.innerHTML = `
         <div class="fn__flex-1">
         ${options.plugin.name}
         </div>
         <span class="fn__space"></span>
         <span class="b3-menu__label">
           <div>
-            <input style="box-sizing: border-box"  class="b3-switch fn__flex-center"  type="checkbox" ${this.mounted?'checked':''}>
+            <input style="box-sizing: border-box"  class="b3-switch fn__flex-center"  type="checkbox" ${
+              this.mounted ? "checked" : ""
+            }>
           </div>
         </span>
-        `
-        element.addEventListener('click',()=>{
-          element.querySelector('input').value=!element.querySelector('input').value
-          this.mounted=!this.mounted
-          if(element.querySelector('input').value){
-            this.onMount?this.onMount(this):null
-          }else{
-            this.onUnmount?this.onUnmount(this):null
-          }
-        })
-        setTimeout(()=>{
-          window.siyuan.menus.menu.element.style.top=parseInt(window.siyuan.menus.menu.element.style.top)-element.clientHeight+'px'
+        `;
+        element.addEventListener(
+          "click",
+          (event) => {
+            this.mounted = !this.mounted;
+            element.querySelector("input").value = this.mounted;
 
-        })
-        return element
+            if (this.mounted) {
+              this.onMounted ? this.onMounted(this) : null;
+            } else {
+              this.onUnmounted ? this.onUnmounted(this) : null;
+            }
+            event.stopPropagation();
+          },
+          false
+        );
+        setTimeout(() => {
+          window.siyuan.menus.menu.element.style.top =
+            parseInt(window.siyuan.menus.menu.element.style.top) -
+            element.clientHeight +
+            "px";
+        });
+        return element;
       },
-      plugin:this
-    })
+      plugin: this,
+    });
   }
-  get selfURL(){
-    return window._noobRegistry[this.name]['selfURL']
+  get selfURL() {
+    return window._noobRegistry[this.name]["selfURL"];
   }
-  get selfPath(){
-    return window._noobRegistry[this.name]['selfPath']
+  get selfPath() {
+    return window._noobRegistry[this.name]["selfPath"];
   }
-  get configPath(){
-    return `conf/noobConf/${this.name}/config.json`
+  get configPath() {
+    return `conf/noobConf/${this.name}/config.json`;
   }
-  get configDir(){
-    return `conf/noobConf/${this.name}`
+  get configDir() {
+    return `conf/noobConf/${this.name}`;
   }
-  清理文档(){
-    window.require('fs').writeFileSync(this.说明文档路径,'')
+  清理文档() {
+    window.require("fs").writeFileSync(this.说明文档路径, "");
   }
   checkSuper() {
     if (!this) {
@@ -138,7 +146,9 @@ export class Plugin {
       let 现有文档内容;
       this.说明文档路径 = this.说明文档路径.replace(/\\/g, "/");
       if (window.require("fs").existsSync(this.说明文档路径)) {
-        现有文档内容 = window.require("fs").readFileSync(this.说明文档路径, "utf-8");
+        现有文档内容 = window
+          .require("fs")
+          .readFileSync(this.说明文档路径, "utf-8");
       } else {
         现有文档内容 = "";
       }
@@ -156,7 +166,7 @@ ${接口配置.功能}
 ### 参数
 
 \`\`\`js
-${JSON.stringify(接口配置.参数,undefined,2)}
+${JSON.stringify(接口配置.参数, undefined, 2)}
 \`\`\`
 
 ### 返回值
@@ -167,7 +177,7 @@ ${接口配置.返回值}
 
 ${接口配置.返回值}
             `;
-      if (window.parent.require&&现有文档内容) {
+      if (window.parent.require && 现有文档内容) {
         require("fs").writeFileSync(this.说明文档路径, 现有文档内容);
       }
     }

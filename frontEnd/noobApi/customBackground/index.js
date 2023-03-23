@@ -47,6 +47,26 @@ export default function 添加自定义随机背景图() {
   }
 }
 let 自定义题图按钮 = [];
+export function 反注册自定义题图按钮(按钮选项) {
+  //不要直接给按钮选项赋值了,可能会被打死的
+  let 按钮id = 按钮选项;
+  if (按钮选项.id) {
+    按钮id = 按钮选项.id;
+  }
+  自定义题图按钮.forEach((button, i) => {
+    if (button) {
+      //要移除时候需要注意对象引用关系嗷
+      button.id == 按钮id ? (自定义题图按钮[i] = undefined) : null;
+      document
+        .querySelectorAll(`.protyle-icons span[data-item-id="${按钮id}"]`)
+        .forEach((el) => {
+          console.log(el);
+          el.remove();
+        });
+    }
+  });
+  console.log(自定义题图按钮);
+}
 export function 注册自定义题图按钮(按钮选项) {
   自定义题图按钮.push(按钮选项);
 }
@@ -60,6 +80,9 @@ function 注入全部题图按钮() {
 }
 function 注入题图按钮(按钮组) {
   自定义题图按钮.forEach((按钮配置) => {
+    if (!按钮配置) {
+      return;
+    }
     try {
       if (
         按钮组.querySelector(`[data-type='random']`) &&
@@ -85,6 +108,9 @@ function 注入题图按钮(按钮组) {
   }
 }
 function 生成题图按钮(按钮配置, 按钮组) {
+  if (!按钮配置) {
+    return;
+  }
   let span = window.parent.document.createElement("span");
   span.setAttribute("class", "protyle-icon b3-tooltips b3-tooltips__sw ");
   span.setAttribute("data-item-id", 按钮配置.id);
