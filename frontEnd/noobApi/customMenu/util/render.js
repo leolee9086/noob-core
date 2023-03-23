@@ -9,7 +9,19 @@ function 生成菜单项目元素(菜单项配置) {
         <span class="b3-menu__label">${菜单项配置.文字}</span>
     </button>
     `;
-  if (菜单项配置.点击回调函数) {
+  let 渲染函数;
+  if (菜单项配置.render) {
+    渲染函数 = 菜单项配置.render;
+  }
+  if (菜单项配置.渲染函数) {
+    渲染函数 = 菜单项配置.渲染函数;
+  }
+  if (渲染函数) {
+    菜单项模板 = 渲染函数(菜单项配置);
+  }
+  if (菜单项模板 instanceof HTMLElement) {
+    return 菜单项模板;
+  } else if (菜单项配置.点击回调函数) {
     return 生成单个dom元素(菜单项模板, 菜单项配置.点击回调函数);
   } else {
     return 生成单个dom元素(菜单项模板, 菜单项配置.事件配置);

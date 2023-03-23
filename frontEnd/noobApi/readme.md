@@ -60,11 +60,22 @@ noob的plugin类并没有什么魔法操作，只有在配合pluginhandler（这
 ### kernelApi虽然很多，但是最好不要太依赖它们
 
 思源的开发速度非常快，所以如果不是已经确定下来的api（也就是在siyuan-note的github仓库文档中列出）的话，最好不要大量使用它们。
-
-### 主要实现的接口
+ 
+### frontEndApi导出主要实现的接口
 
 #### 自定义块标菜单
 
+使用入口：frontEndApi.menus.gutterMenu
+
+使用方式:
+
+```js
+
+let {gutterMenu} = frontEndApi.menus
+
+gutter.
+
+```
 
 #### 自定义文档树菜单
 

@@ -47,13 +47,13 @@ export default class configPage extends Plugin {
   }
   async 刷新设置() {
     this.config= await this.getNoobConfig('plugins');
-    this.config = mergeConfig(this.config, window._registry);
+    this.config = mergeConfig(this.config, window._noobRegistry);
     await this.saveNoobConfig('plugins',this.config);
   }
   async openSetting() {
     await this.刷新设置();
    // await this.getConfig();
-    this.config = mergeConfig(this.config, window._registry);
+    this.config = mergeConfig(this.config, window._noobRegistry);
     let oldConfig = uncircleString(this.config);
     let html = "";
     Object.getOwnPropertyNames(this.config).forEach((plugin) => {
@@ -66,7 +66,7 @@ export default class configPage extends Plugin {
       <div class="fn__space"></div>
       
       `;
-      if (window._registry[plugin].type == "custom") {
+      if (window._noobRegistry[plugin].type == "custom") {
         html += `
         <input class="b3-switch fn__flex-center" id="plugin_${plugin}" type="checkbox" ${
           this.config[plugin]["actived"] ? "checked" : ""
@@ -81,7 +81,7 @@ export default class configPage extends Plugin {
       content: html,
       width: "90vw",
       destroyCallback: async () => {
-        console.log(this.config, window._registry);
+        console.log(this.config, window._noobRegistry);
         if (oldConfig !== uncircleString(this.config)) {
           await this.saveNoobConfig('plugins',this.config)
          
@@ -98,7 +98,7 @@ export default class configPage extends Plugin {
         checkBox.addEventListener("change", (event) => {
           let plugin = event.target.id.replace("plugin_", "");
           this.config[plugin]["actived"] = !this.config[plugin]["actived"];
-          window._registry[plugin]["actived"]=this.config[plugin]["actived"] 
+          window._noobRegistry[plugin]["actived"]=this.config[plugin]["actived"] 
           this.config[plugin]["actived"] ?this.noobRunPlugin(plugin):null
           event.stopPropagation();
           event.preventDefault();
@@ -107,7 +107,7 @@ export default class configPage extends Plugin {
     this.dialog.show();
     Object.getOwnPropertyNames(this.config).forEach(async (name) => {
       try {
-        let meta = window._registry[name].meta;
+        let meta = window._noobRegistry[name].meta;
         this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText;
         this.dialog.element.querySelector(`[data-plugin="${name}"]`).innerText =
           meta.describe;
@@ -115,10 +115,10 @@ export default class configPage extends Plugin {
           .querySelector(`[data-plugin="${name}"]`)
           .addEventListener("click", () => {
             if (
-              window._registry[name] &&
-              window._registry[name].instance.configPage
+              window._noobRegistry[name] &&
+              window._noobRegistry[name].instance.configPage
             ) {
-              window._registry[name].instance.configPage.mount(this.dialog);
+              window._noobRegistry[name].instance.configPage.mount(this.dialog);
             }
           });
       } catch (e) {
@@ -243,10 +243,10 @@ export default class configPage extends Plugin {
         其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
       },
        function noobRunPlugin(name){
-        console.log(window._registry,window._registry[name])
-        let constructor =window._registry[name]._constructor.constructor
-        window._registry[name].instance=new constructor()
-        return window._registry[name].instance
+        console.log(window._noobRegistry,window._noobRegistry[name])
+        let constructor =window._noobRegistry[name]._constructor.constructor
+        window._noobRegistry[name].instance=new constructor()
+        return window._noobRegistry[name].instance
       }
     )
     this.设置插件接口函数(
@@ -261,9 +261,9 @@ export default class configPage extends Plugin {
         其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
       },
        function noobClosePlugin(name){
-        let instance =window._registry[name]._constructor
+        let instance =window._noobRegistry[name]._constructor
         instance.onUnload?instance.onUnload():null
-        window._registry[name].instance=undefined
+        window._noobRegistry[name].instance=undefined
       }
     )
   }

@@ -9,14 +9,20 @@ import { 状态栏帮助菜单 } from "./statusHelpMenu/index.js";
 import { 批量渲染自定义菜单 } from "./util/render.js";
 let 自定义菜单 = {
   块标菜单,
+  gutterMenu:块标菜单,
   编辑器菜单,
+  docMenu:编辑器菜单,
   文档树菜单,
+  treeMenu:文档树菜单,
   面包屑菜单,
+  breadCrumbMenu:面包屑菜单,
   图片菜单,
+  imageMenu:图片菜单,
   引用块菜单,
+  blockrefMenu:引用块菜单,
   状态栏帮助菜单,
+  helpMenu:状态栏帮助菜单,
   rawMenu:window.siyuan.menus.menu
-  
 };
 let popup = window.siyuan.menus.menu.popup;
 //这里...args的含义是解构赋值

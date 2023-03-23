@@ -16,10 +16,16 @@ export class  自定义菜单原型{
         )
     }
     菜单状态={}
+    get status(){
+        return this.菜单状态
+    }
     判断函数(){}
     注册自定义菜单项(菜单项){ 
         this.菜单注册表.push(菜单项) 
         return this
+    }
+    registMenuItem(...args){
+        return this.注册自定义菜单项(...args)
     }
     注册自定义子菜单项(查找条件, 子菜单项){
         let 目标菜单项 = this.菜单注册表.find(
@@ -33,8 +39,12 @@ export class  自定义菜单原型{
             if (!重复子菜单项) {
                 目标菜单项.子菜单配置.push(子菜单项)
             }
+            return this
         }
-        else return
+        else return this
+    }
+    registSubMenuItem(...args){
+        return this.注册自定义子菜单项(...args)
     }
     删除自定义菜单项(查找条件函数){
         this.菜单注册表.forEach(
@@ -45,7 +55,9 @@ export class  自定义菜单原型{
             }
         )
         return this
-
+    }
+    unRegistMenuItem(...args){
+        return this.删除自定义菜单项(...args)
     }
     删除自定义子菜单项(查找条件函数){
         this.菜单注册表.forEach(
@@ -62,7 +74,9 @@ export class  自定义菜单原型{
             }
         )
         return this
-
+    }
+    unRegistSubMenuItem(...args){
+        return this.删除自定义子菜单项(...args)
     }
     remove(){
         window.siyuan.menus.menu.remove()

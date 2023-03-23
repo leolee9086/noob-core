@@ -81,15 +81,15 @@ export default class bazaar extends Plugin {
   }
   async 生成npm包按钮(packgeName, remotePackageInfo) {
     let pluginName = packgeName.replace("noob-plugin-", "");
-    console.log(pluginName, window._registry);
-    if (!window._registry[pluginName]) {
+    console.log(pluginName, window._noobRegistry);
+    if (!window._noobRegistry[pluginName]) {
       return `<button class="b3-button b3-button--outline fn__size200" id="plugin_download_${packgeName}">
                     <svg><use xlink:href="#iconDownload"></use></svg>下载
        </button>`;
     } else {
       let packageInfo = JSON.parse(
         await frontEndApi.workspace.readFile(
-          window._registry[pluginName].selfPath + "/package.json"
+          window._noobRegistry[pluginName].selfPath + "/package.json"
         )
       );
       let currentVersion = packageInfo.version;

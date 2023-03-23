@@ -1,4 +1,5 @@
 import fs from './polyfills/fs.js'
+import { frontEndApi } from 'siyuan-noob';
 let 接口注册表 = [];
 export class Plugin {
   constructor() {
@@ -15,12 +16,51 @@ export class Plugin {
         "_readme.md")
       this.清理文档()
     }
+  
+  }
+  //在帮助菜单里面插入一项,便于自杀
+  buildSelfSwitsh(){
+    
+    frontEndApi.menus.helpMenu.注册自定义菜单项({
+      icon:'#iconConfig',
+      label:this.name,
+      render:(options)=>{
+        let element = document.createElement('button')
+        element.setAttribute('class','b3-menu__item')
+        element.innerHTML=`
+        <div class="fn__flex-1">
+        ${options.plugin.name}
+        </div>
+        <span class="fn__space"></span>
+        <span class="b3-menu__label">
+          <div>
+            <input style="box-sizing: border-box"  class="b3-switch fn__flex-center"  type="checkbox">
+          </div>
+        </span>
+        `
+        element.addEventListener('click',()=>{
+          element.querySelector('input').value=!element.querySelector('input').value
+          this.mounted=!this.mounted
+          if(element.querySelector('input').value){
+            this.onMount?this.onMount(this):null
+          }else{
+            this.onUnmount?this.onUnmount(this):null
+          }
+        })
+        setTimeout(()=>{
+          window.siyuan.menus.menu.element.style.top=parseInt(window.siyuan.menus.menu.element.style.top)-element.clientHeight+'px'
+
+        })
+        return element
+      },
+      plugin:this
+    })
   }
   get selfURL(){
-    return window._registry[this.name]['selfURL']
+    return window._noobRegistry[this.name]['selfURL']
   }
   get selfPath(){
-    return window._registry[this.name]['selfPath']
+    return window._noobRegistry[this.name]['selfPath']
   }
   get configPath(){
     return `conf/noobConf/${this.name}/config.json`
