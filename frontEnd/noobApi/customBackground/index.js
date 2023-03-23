@@ -133,7 +133,7 @@ function 判定目标(判定元素) {
   }
 }
 
-document.addEventListener("mousemove", (event) => {
+document.addEventListener("mouseover", (event) => {
   if (判定目标(event.target)) {
     注入全部题图按钮();
   }

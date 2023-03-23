@@ -15,7 +15,8 @@ export class Dialog {
   ) {
     this.disableClose = options.disableClose;
     this.id = genUUID();
-    window.siyuan.dialogs.push(this);
+    //此处将它放到思源的dialogs里面会有时候会出问题
+    //window.siyuan.dialogs.push(this);
     this.destroyCallback = options.destroyCallback;
     this.options = options;
   }

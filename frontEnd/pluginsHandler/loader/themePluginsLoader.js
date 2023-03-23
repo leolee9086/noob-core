@@ -1,6 +1,6 @@
 import pluginsRegistry from "../registry/index.js";
 import { themePluginURL } from "../../../file/noobURL.js";
-import { readFile, readDir } from "../../polyfills/fs.js";
+import { readFile, readDir } from "../../noobApi/polyfills/fs.js";
 let PluginList = await readDir(themePluginURL);
 let url = new URL(import.meta.url)
 export let loadThemePlugins = async () => {

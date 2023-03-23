@@ -1,6 +1,6 @@
 
 export function 监听文件修改(监听选项){
-    const fs = require('fs')
+    const fs = window.require('fs')
     fs.watch(监听选项.监听路径,监听选项.监听配置,(type,fileName)=>{
         if((监听选项.事件类型.indexOf(type)>=0)&&fileName){
             console.log(fileName)

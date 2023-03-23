@@ -1,5 +1,5 @@
 //如果在app环境，创建运行时服务器
-import { readFile } from "./frontEnd/polyfills/fs.js";
+import { readFile } from "./frontEnd/noobApi/polyfills/fs.js";
 let isAppMain =
   siyuan.layout.leftDock ||
   siyuan.layout.rightDock ||
@@ -25,6 +25,8 @@ setTimeout(async() => {
   //这里是为了等待vite开发服务器的启用，在此之后，vite接管了noob前端的伺服
   //注意，除了本来自带的依赖之外，只有在noob-service-esm设置白名单上的依赖才能够被插件引入
   let ports =JSON.parse(await readFile("/temp/noobTemp/port.json"))
-  let vitePort=ports.noob编译服务端口号
-  import(`http://127.0.0.1:${vitePort}/core/frontEnd/index.js`);
+  let noobPort=ports.noob编译服务端口号
+  window.noobPort=noobPort
+  import(`http://127.0.0.1:${noobPort}/core/frontEnd/index.js`);
+  console.log(document.querySelectorAll('script[id*=\"snippet\"]'))
 });

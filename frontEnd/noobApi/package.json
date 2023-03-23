@@ -1,0 +1,16 @@
+{
+  "name": "siyuan-noob",
+  "version": "1.0.9",
+  "description": "noob的前端模块,可以不依赖后端使用",
+  "main": "index.js",
+  "module":"index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "思源",
+    "siyuan-note"
+  ],
+  "author": "leolee9086",
+  "license": "AGPL-3.0-or-later"
+}

@@ -68,7 +68,7 @@ export let readDir = async (path) => {
 };
 export let exists = (path) => {
   if(window.require){
-    return require('fs').existsSync(window.siyuan.config.system.workspaceDir+'/'+path)
+    return window.require('fs').existsSync(window.siyuan.config.system.workspaceDir+'/'+path)
   }
   return new Promise((resolve, reject) => {
     fetch("/api/file/getFile", {

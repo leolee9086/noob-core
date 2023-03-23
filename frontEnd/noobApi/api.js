@@ -10,15 +10,23 @@ import { Tab, 注册自定义tab } from "./customTab/index.js";
 import * as layoutUtil from "./util/layouts.js";
 import 注册图标 from "./customIcon/index.js";
 import 注册url动作 from "./UrlAction/index.js";
-import {npm} from '../polyfills/package.js'
+import {npm} from './polyfills/package.js'
 //这个接口暂时还不可用
 //import { leftDock } from "./customDock/index.js";
 import { Protyle } from "./customTab/util/Protyle.js";
 import { BlockListEditor } from "./customTab/blockList/index.js";
 //这个接口暂时也不可用
 import {  Dialog } from "./customDialog/index.js";
-import { readFile,writeFile,    exists} from "../polyfills/fs.js";
-import { currentThemeURL } from "../../file/siyuanURL.js";
+import { readFile,writeFile,    exists} from "./polyfills/fs.js";
+let currentThemeURL = (
+  window.parent.document.getElementById("themeStyle")
+  ? window.parent.document.getElementById("themeStyle")
+  : window.parent.document.getElementById("themeDefaultStyle")
+).getAttribute("href");
+currentThemeURL = currentThemeURL
+.split("/")
+.slice(0, currentThemeURL.split("/").length - 1)
+.join("/");
 let noobApi = {
   自定义菜单: 自定义菜单,
   menus: 自定义菜单,

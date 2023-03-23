@@ -1,6 +1,6 @@
 const url动作注册表 = []
 if (window.require) {
-    const { ipcRenderer } = require('electron')
+    const { ipcRenderer } = window.require('electron')
     ipcRenderer.on('siyuan-openurl', (event, msg) => {
         执行URL(msg)
     })

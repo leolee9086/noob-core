@@ -1,8 +1,7 @@
-import { Plugin, kernelApi, frontEndApi } from "siyuan";
+import { Plugin, frontEndApi } from "siyuan";
 import { noobConfigDir } from "../../../file/noobURL.js";
 import { mergeConfig } from "./util/config.js";
 import { configPageBinder } from "./util/configPageBinder.js";
-console.log(window);
 let customPanel = (地址) => {
   return `<div class="fn__flex fn__flex-1  fn__flex-column">   
     <iframe   
@@ -47,20 +46,17 @@ export default class configPage extends Plugin {
     this.注册插件接口();
   }
   async 刷新设置() {
-    await this.getConfig();
+    this.config= await this.getNoobConfig('plugins');
     this.config = mergeConfig(this.config, window._registry);
-    await this.saveConfig();
+    await this.saveNoobConfig('plugins',this.config);
   }
   async openSetting() {
     await this.刷新设置();
-
    // await this.getConfig();
-    console.log(this.config,window._registry);
     this.config = mergeConfig(this.config, window._registry);
     let oldConfig = uncircleString(this.config);
     let html = "";
     Object.getOwnPropertyNames(this.config).forEach((plugin) => {
-      console.log(window._registry[plugin]);
       html += `
       <label class="b3-label fn__flex">
       <div class="fn__flex-1">
@@ -79,7 +75,6 @@ export default class configPage extends Plugin {
       }
       html += "</label>";
     });
-
     this.confgPanel = html;
     this.dialog = new frontEndApi.layout.Dialog({
       title: "noob插件设置",
@@ -88,7 +83,6 @@ export default class configPage extends Plugin {
       destroyCallback: async () => {
         console.log(this.config, window._registry);
         if (oldConfig !== uncircleString(this.config)) {
-          await this.saveConfig();
           await this.saveNoobConfig('plugins',this.config)
          
           //window.parent.location.reload();
@@ -220,6 +214,21 @@ export default class configPage extends Plugin {
       async function saveNoobConfig(key,value){
         console.log(noobConfigDir+'/'+key+'.json')
        await frontEndApi.workspace.writeFile(uncircleString(value,undefined,2),noobConfigDir+'/'+key+'.json')
+      }
+    )
+    this.设置插件接口函数(
+      {
+        中文名:"保存系统设置",
+        英文名:"getNoobConfig",
+        功能:"获取针对工作空间启动noob时的设置",
+        参数:{
+          key:"需要获取的参数名称",
+        },
+        返回值:"返回一个对象,其内容为解析之后的对应系统设置文件内容",
+        其他:"不建议滥用这个接口,它应该是用于读取系统级别的配置"
+      },
+      async function getNoobConfig(key){
+       return JSON.parse(await frontEndApi.workspace.readFile(noobConfigDir+'/'+key+'.json'))
       }
     )
     this.设置插件接口函数(

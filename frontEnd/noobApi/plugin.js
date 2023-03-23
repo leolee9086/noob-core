@@ -1,3 +1,4 @@
+import fs from './polyfills/fs.js'
 let 接口注册表 = [];
 export class Plugin {
   constructor() {
@@ -28,7 +29,7 @@ export class Plugin {
     return `conf/noobConf/${this.name}`
   }
   清理文档(){
-    require('fs').writeFileSync(this.说明文档路径,'')
+    window.require('fs').writeFileSync(this.说明文档路径,'')
   }
   checkSuper() {
     if (!this) {
@@ -96,8 +97,8 @@ export class Plugin {
     if (window.parent.require) {
       let 现有文档内容;
       this.说明文档路径 = this.说明文档路径.replace(/\\/g, "/");
-      if (require("fs").existsSync(this.说明文档路径)) {
-        现有文档内容 = require("fs").readFileSync(this.说明文档路径, "utf-8");
+      if (window.require("fs").existsSync(this.说明文档路径)) {
+        现有文档内容 = window.require("fs").readFileSync(this.说明文档路径, "utf-8");
       } else {
         现有文档内容 = "";
       }

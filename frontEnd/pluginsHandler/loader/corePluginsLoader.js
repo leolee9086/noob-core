@@ -1,4 +1,4 @@
-import fs from "../../polyfills/fs.js";
+import fs from "../../noobApi/polyfills/fs.js";
 import pluginsRegistry from "../registry/index.js";
 let metaURL = import.meta.url;
 let origin = new URL(metaURL).origin;

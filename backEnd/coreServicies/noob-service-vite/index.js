@@ -153,6 +153,10 @@ let coreMiddleware = await vite.createServer({
         find: "noob",
         replacement: "../core/frontEnd/noobApi/index.js",
       },
+      {
+        find: "siyuan-noob",
+        replacement: "../../../../core/frontEnd/noobApi/index.js",
+      },
     ],
   },
 });
@@ -190,6 +194,10 @@ let snippetsMiddleware = await vite.createServer({
         replacement: "../../../../core/frontEnd/noobApi/index.js",
       },
       {
+        find: "siyuan-noob",
+        replacement: "../../../../core/frontEnd/noobApi/index.js",
+      },
+      {
         find: "svelte",
         replacement:
           "../../../../core/backEnd/coreServicies/noob-service-vite/node_modules/svelte",
@@ -223,6 +231,10 @@ let appearanceMiddleware = await vite.createServer({
     alias: [
       {
         find: "siyuan",
+        replacement: "../../../../core/frontEnd/noobApi/index.js",
+      },
+      {
+        find: "siyuan-noob",
         replacement: "../../../../core/frontEnd/noobApi/index.js",
       },
       {
