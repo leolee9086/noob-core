@@ -55,7 +55,7 @@ export function 反注册自定义题图按钮(按钮选项) {
   }
   自定义题图按钮.forEach((button, i) => {
     if (button) {
-      //要移除时候需要注意对象引用关系嗷
+      //要移除时候需要注意对象引用关系嗷.
       button.id == 按钮id ? (自定义题图按钮[i] = undefined) : null;
       document
         .querySelectorAll(`.protyle-icons span[data-item-id="${按钮id}"]`)
