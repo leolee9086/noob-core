@@ -21,16 +21,18 @@ import {
   Plugin,
   frontEndApi,
   kernelApi,
-} from "https://esm.sh/siyuan-noob@latest";
+} from "https://esm.sh/siyuan-noob@<版本号>";
 ```
+
+注意别用 latest 标签,最近可能改得比较频繁,最好手动确认一下哪个版本比较稳再说,原本naive的功能都恢复了之后会尽量稳了再更新.
 
 这样安装之后会缺少一些高级功能，但是对于简单使用来说，完全够用啦~~~
 
-如果你要指定版本号,将@latest 改为具体的版本号即可.
+如果你要指定版本号,将<版本号> 改为具体的版本号即可.
 
 esmsh 版本号判断有点延迟,所以最好直接指定版本号避免问题出现.
 
-受到 vue 的启发,noob 的各个功能模块也是尽可能"渐进式"的,引入 noobAPI 实现最基本的功能注入, 引入整个 frontEnd(相比 api 多了 pluginHandler 和几个核心插件)可以实现最基础的插件开关和更新等,引入整个 noobcore 则可以实现依赖伺服、插件代码条件编译、vite 的部分功能以及子服务（应用）模块。这是基于思源本身有多个环境，运行状况比较复杂而确定的架构方式。
+受到 vue 之类的启发,noob 的各个功能模块也是尽可能"渐进式"的,引入 noobAPI 实现最基本的功能注入, 引入整个 frontEnd(相比 api 多了 pluginHandler 和几个核心插件)可以实现最基础的插件开关和更新等,引入整个 noobcore 则可以实现依赖伺服、插件代码条件编译、vite 的部分功能以及子服务（应用）模块。这是基于思源本身有多个环境，运行状况比较复杂而确定的架构方式。
 
 plugin 类之后会实现简单的子我管理,也就是自动创建一个开关用于开启和关闭.
 
@@ -190,12 +192,58 @@ status|菜单状态项包含了
 #### 自定义顶部工具栏按钮
 
 别看了这个也还没弄进来
+
 #### 自定义头图按钮
 
-等我有时间写文档
+```js
+    let 头图按钮配置1 = {
+      id: "小歪",
+      type: "小歪",
+      label: "小歪",
+      callback: (event) => this.获取小歪图片(event),
+      图标: "#iconImage",
+    };
+
+    frontEndApi.editor.addBackgoundImageButton(头图按钮配置1);
+      async 获取小歪图片(event) {
+    event.preventDefault();
+    let 文档id = this.获取文档id(event.target);
+    let 头图元素组 = document.querySelectorAll(
+      `.protyle-background[data-node-id="${文档id}"] div.protyle-background__img img`
+    );
+    console.log(文档id);
+    let img = await fetch("https://api.ixiaowai.cn/api/api.php");
+    console.log(img);
+    let imgurl = img.url;
+    头图元素组.forEach((el) => {
+      el.setAttribute("style", "");
+      el.setAttribute("src", imgurl);
+    });
+    kernelApi.setBlockAttrs({
+      id: 文档id,
+      attrs: {
+        "title-img": `background-image:url(${imgurl})`,
+      },
+    });
+  }
+
+```
+
+上面那个就是用来获取一个随机图片的
+
+反注册按钮的方法倒是简单
+
+```js
+frontEndApi.editor.removeBackgoundImageButton(头图按钮配置1);
+```
+这两个方法的使用参考示例插件
+
+https://www.npmjs.com/package/noob-plugin-morebackground
+
+https://www.npmmirror.com/package/noob-plugin-morebackground
 #### 自定义图标
 
-暴露在DOMUtil上的addIcon方法
+暴露在 DOMUtil 上的 addIcon 方法
 
 用法是这样
 
@@ -208,8 +256,11 @@ frontEndApi.DOMUtil.addIcon({
 });
 ```
 
+removeIcon 方法暂时没有写
 
 #### 自定义页签
+
+这个还没有想好文档怎么写,着实用起来有点复杂了
 
 #### 自定义编辑器工具栏按钮
 

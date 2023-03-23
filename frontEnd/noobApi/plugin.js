@@ -43,7 +43,7 @@ export class Plugin {
           (event) => {
             this.mounted = !this.mounted;
             element.querySelector("input").value = this.mounted;
-
+            element.querySelector("input").setAttribute('checked',this.mounted)
             if (this.mounted) {
               this.onMounted ? this.onMounted(this) : null;
             } else {

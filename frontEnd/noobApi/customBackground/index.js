@@ -60,12 +60,10 @@ export function 反注册自定义题图按钮(按钮选项) {
       document
         .querySelectorAll(`.protyle-icons span[data-item-id="${按钮id}"]`)
         .forEach((el) => {
-          console.log(el);
           el.remove();
         });
     }
   });
-  console.log(自定义题图按钮);
 }
 export function 注册自定义题图按钮(按钮选项) {
   自定义题图按钮.push(按钮选项);
