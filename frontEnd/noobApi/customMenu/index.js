@@ -9,20 +9,20 @@ import { 状态栏帮助菜单 } from "./statusHelpMenu/index.js";
 import { 批量渲染自定义菜单 } from "./util/render.js";
 let 自定义菜单 = {
   块标菜单,
-  gutterMenu:块标菜单,
+  gutterMenu: 块标菜单,
   编辑器菜单,
-  docMenu:编辑器菜单,
+  docMenu: 编辑器菜单,
   文档树菜单,
-  treeMenu:文档树菜单,
+  treeMenu: 文档树菜单,
   面包屑菜单,
-  breadCrumbMenu:面包屑菜单,
+  breadCrumbMenu: 面包屑菜单,
   图片菜单,
-  imageMenu:图片菜单,
+  imageMenu: 图片菜单,
   引用块菜单,
-  blockrefMenu:引用块菜单,
+  blockrefMenu: 引用块菜单,
   状态栏帮助菜单,
-  helpMenu:状态栏帮助菜单,
-  rawMenu:window.siyuan.menus.menu
+  helpMenu: 状态栏帮助菜单,
+  rawMenu: window.siyuan.menus.menu,
 };
 let popup = window.siyuan.menus.menu.popup;
 //这里...args的含义是解构赋值
@@ -31,10 +31,26 @@ window.siyuan.menus.menu.popup = (options, isLeft, isCustom) => {
   //如果是块标菜单，我们就做点啥
   //第三个参数是为了避免对自定义菜单判断函数的干扰
   popup.bind(window.siyuan.menus.menu)(options, isLeft);
+  //提供了双语名之后,为了避免重复渲染,遇到英文名就直接跳过了
+  let alias = [
+    "gutterMenu",
+    "docMenu",
+    "treeMenu",
+    "breadCrumbMenu",
+    "imageMenu",
+    "blockrefMenu",
+    "helpMenu",
+    "rawMenu",
+  ];
   if (!isCustom) {
     try {
       for (let 菜单名 in 自定义菜单) {
-        if (自定义菜单[菜单名].判断函数&&自定义菜单[菜单名].判断函数() && 菜单名 !== "当前菜单") {
+        if (
+          alias.indexOf(菜单名) <= 0 &&
+          自定义菜单[菜单名].判断函数 &&
+          自定义菜单[菜单名].判断函数() &&
+          菜单名 !== "当前菜单"
+        ) {
           自定义菜单.当前菜单 = 自定义菜单[菜单名];
           批量渲染自定义菜单(自定义菜单[菜单名].待渲染菜单项目数组);
         }

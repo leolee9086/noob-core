@@ -34,7 +34,7 @@ export class Plugin {
         <span class="fn__space"></span>
         <span class="b3-menu__label">
           <div>
-            <input style="box-sizing: border-box"  class="b3-switch fn__flex-center"  type="checkbox">
+            <input style="box-sizing: border-box"  class="b3-switch fn__flex-center"  type="checkbox" ${this.mounted?'checked':''}>
           </div>
         </span>
         `
