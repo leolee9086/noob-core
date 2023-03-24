@@ -1,6 +1,7 @@
 import { 界面状态 } from '../../status/index.js'
-let 待渲染菜单项目数组 = []
-let 菜单状态 = {}
+import {自定义菜单原型} from '../customMenu.js'
+let 文档树菜单 = new 自定义菜单原型()
+
 function 判断是否文档树菜单(判定元素) {
     if (!判定元素) {
         判定元素 = 界面状态.鼠标状态.最后鼠标点击元素
@@ -21,9 +22,9 @@ function 判断是否文档树菜单(判定元素) {
     }
 }
 function 获取菜单状态(判定元素){
-    菜单状态.当前块id= 判定元素.parentElement.getAttribute('data-node-id')
-     菜单状态.当前文档id = 判定元素.parentElement.getAttribute('data-node-id')
-    菜单状态.当前笔记本id =获取笔记本id(判定元素)
+    文档树菜单.菜单状态.当前块id= 判定元素.parentElement.getAttribute('data-node-id')
+    文档树菜单.菜单状态.当前文档id = 判定元素.parentElement.getAttribute('data-node-id')
+    文档树菜单.菜单状态.当前笔记本id =获取笔记本id(判定元素)
 }
 function 获取笔记本id(判定元素){
     if(判定元素.getAttribute('data-url')){
@@ -33,26 +34,6 @@ function 获取笔记本id(判定元素){
         return 获取笔记本id(判定元素.parentElement)
     }
 }
-export let 文档树菜单 ={
-    注册自定义菜单项: (菜单项) => { 待渲染菜单项目数组.push(菜单项) },
-    注册自定义子菜单项: (查找条件, 子菜单项) => {
-        let 目标菜单项 = 待渲染菜单项目数组.find(
-            菜单项 => { return 查找条件(菜单项) }
-        )
-        if (目标菜单项) {
-            !目标菜单项.子菜单配置 ? 目标菜单项.子菜单配置 = [] : null
-            let 重复子菜单项 = 目标菜单项.子菜单配置.find(
-                待检查项子菜单项 => { return 待检查项子菜单项.id == 子菜单项.id }
-            )
-            console.log(目标菜单项, 子菜单项)
-            if (!重复子菜单项) {
-                目标菜单项.子菜单配置.push(子菜单项)
-            }
-        }
-        else return
-    },
-    待渲染菜单项目数组,
-    判断函数: 判断是否文档树菜单,
-    菜单状态: 菜单状态,
-    status:菜单状态
-}
+文档树菜单.判断函数 = 判断是否文档树菜单
+
+export {文档树菜单 as 文档树菜单}

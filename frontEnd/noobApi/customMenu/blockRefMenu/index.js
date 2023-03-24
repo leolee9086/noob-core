@@ -9,9 +9,9 @@ function 判断是否引用块菜单(判定元素) {
     if (判定元素) {
         switch (判定元素.tagName) {
             case 'SPAN':
-                菜单状态.引用目标id= 判定元素.getAttribute('data-id')
-                菜单状态.引用类型 = 判定元素.getAttribute('data-subtype')
-                菜单状态.所在块id = 获取最近上级块id(判定元素)
+                引用块菜单.菜单状态.引用目标id= 判定元素.getAttribute('data-id')
+                引用块菜单.菜单状态.引用类型 = 判定元素.getAttribute('data-subtype')
+                引用块菜单.菜单状态.所在块id = 获取最近上级块id(判定元素)
                 return (判定元素.getAttribute('data-type')&&判定元素.getAttribute('data-type').indexOf('block-ref')>-1)
         }
     }
