@@ -212,8 +212,10 @@ let appearanceMiddleware = await vite.createServer({
     fs: {
       allow: [workspaceDir],
     },
-    hmr: false,
-    port:port
+    hmr: {
+      port:port+5
+    }
+    
   },
   appType: "custom",
   root: path.join(workspaceDir, "conf", "appearance"),

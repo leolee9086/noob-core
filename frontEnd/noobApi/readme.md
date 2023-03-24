@@ -264,6 +264,23 @@ removeIcon 方法暂时没有写
 
 #### 自定义编辑器工具栏按钮
 
+```js
+    frontEndApi.editor.toolbar.registItem({
+      id: "一个id,必须全局唯一",
+      提示: "鼠标挪到这个按钮的时候显示什么",
+      图标: `#iconSettings`//一个图标,可以用注册图标的方式添加自己喜欢的
+      点击回调函数: (event) => {console.log('我是一个工具栏图标')},
+    });
+```
+
+https://www.npmjs.com/package/noob-plugin-quickset
+
+https://www.npmmirror.com/package/noob-plugin-quickset
+
+https://www.npmjs.com/package/noob-plugin-quickmove
+
+https://www.npmmirror.com/package/noob-plugin-quickmove
+
 ### 尚未重构完成的接口
 
 由于 noobAPI 本身是由 naive 主题的 api 重构而来，有一部分接口目前还没有完成整合。

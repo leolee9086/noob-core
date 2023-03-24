@@ -3,10 +3,12 @@ import { frontEndApi } from "siyuan-noob";
 let 接口注册表 = [];
 export class Plugin {
   constructor() {
-    Object.defineProperty(this, "name", {
+   /* Object.defineProperty(this, "name", {
       value: this.constructor.name,
       writable: false,
-    });
+    });*/
+   //不再强制用类名作为插件名，以免实际使用出问题
+    this.name=this.constructor.name
     this.checkSuper();
     if (window.require) {
       this.说明文档路径 = require("path").join(
@@ -14,11 +16,10 @@ export class Plugin {
         "/data/snippets/noobPluginsReadme/",
         this.name + "_readme.md"
       );
-      this.清理文档();
     }
   }
   //在帮助菜单里面插入一项,便于自杀
-  buildSelfSwitsh() {
+  buildSelfSwitch() {
     frontEndApi.menus.helpMenu.注册自定义菜单项({
       icon: "#iconConfig",
       label: this.name,
@@ -77,7 +78,9 @@ export class Plugin {
     return `conf/noobConf/${this.name}`;
   }
   清理文档() {
-    window.require("fs").writeFileSync(this.说明文档路径, "");
+    if(window.require("fs").existsSync(this.说明文档路径)){
+    window.require("fs").writeFileSync(this.说明文档路径, "")
+    };
   }
   checkSuper() {
     if (!this) {
@@ -145,7 +148,7 @@ export class Plugin {
     if (window.parent.require) {
       let 现有文档内容;
       this.说明文档路径 = this.说明文档路径.replace(/\\/g, "/");
-      if (window.require("fs").existsSync(this.说明文档路径)) {
+   /*   if (window.require("fs").existsSync(this.说明文档路径)) {
         现有文档内容 = window
           .require("fs")
           .readFileSync(this.说明文档路径, "utf-8");
@@ -178,8 +181,10 @@ ${接口配置.返回值}
 ${接口配置.返回值}
             `;
       if (window.parent.require && 现有文档内容) {
+        this.清理文档();
+
         require("fs").writeFileSync(this.说明文档路径, 现有文档内容);
-      }
+      }*/
     }
   }
 }

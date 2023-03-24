@@ -1,3 +1,3 @@
-export default frontEndUtil={
-    
+export let siyuanUI = {
+
 }

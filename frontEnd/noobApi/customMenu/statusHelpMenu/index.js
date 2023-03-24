@@ -1,7 +1,6 @@
 import { 界面状态 } from '../../status/index.js'
 import {自定义菜单原型} from '../customMenu.js'
 let 状态栏帮助菜单 = new 自定义菜单原型()
-
 function 判断状态栏帮助菜单(判定元素) {
     if (!判定元素) {
         判定元素 = 界面状态.鼠标状态.最后鼠标点击元素

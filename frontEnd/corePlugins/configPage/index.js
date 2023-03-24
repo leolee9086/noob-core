@@ -99,7 +99,7 @@ export default class configPage extends Plugin {
           let plugin = event.target.id.replace("plugin_", "");
           this.config[plugin]["actived"] = !this.config[plugin]["actived"];
           window._noobRegistry[plugin]["actived"]=this.config[plugin]["actived"] 
-          this.config[plugin]["actived"] ?this.noobRunPlugin(plugin):null
+          this.config[plugin]["actived"] ?this.noobMountPlugin(plugin):this.noobUnmountPlugin(plugin)
           event.stopPropagation();
           event.preventDefault();
         })
@@ -234,7 +234,7 @@ export default class configPage extends Plugin {
     this.设置插件接口函数(
       {
         中文名:"开启插件",
-        英文名:"noobRunPlugin",
+        英文名:"noobMountPlugin",
         功能:"实例化某个插件,开启它的功能",
         参数:{
           name:"需要实例化的插件名称",
@@ -243,16 +243,17 @@ export default class configPage extends Plugin {
         其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
       },
        function noobRunPlugin(name){
-        console.log(window._noobRegistry,window._noobRegistry[name])
         let constructor =window._noobRegistry[name]._constructor.constructor
         window._noobRegistry[name].instance=new constructor()
+        let instance =window._noobRegistry[name].instance
+        instance.onMounted?instance.onMounted():null
         return window._noobRegistry[name].instance
       }
     )
     this.设置插件接口函数(
       {
         中文名:"关闭插件",
-        英文名:"noobClosePlugin",
+        英文名:"noobUnmountPlugin",
         功能:"反实例化某个插件,尽可能关闭它的功能",
         参数:{
           name:"需要反实例化的插件名称",
@@ -261,8 +262,8 @@ export default class configPage extends Plugin {
         其他:"不建议滥用这个接口,它应该是用于插件系统本身的管理功能"
       },
        function noobClosePlugin(name){
-        let instance =window._noobRegistry[name]._constructor
-        instance.onUnload?instance.onUnload():null
+        let instance =window._noobRegistry[name].instance
+        instance.onUnmounted?instance.onUnmounted():null
         window._noobRegistry[name].instance=undefined
       }
     )
