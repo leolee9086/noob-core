@@ -1,6 +1,6 @@
 import pluginsRegistry from "../registry/index.js";
 import { customPluginURL,noobConfigDir } from "../../../file/noobURL.js";
-import fs, { readFile, readDir } from "../../noobApi/polyfills/fs.js";
+import fs, {  readDir } from "../../noobApi/polyfills/fs.js";
 let pluginSet={}
 if(await fs.exists(noobConfigDir+'/plugins.json')){
    pluginSet = await fs.readFile(noobConfigDir+'/plugins.json')

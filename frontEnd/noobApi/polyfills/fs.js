@@ -103,6 +103,7 @@ export let mkdir = async (path) => {
   });
   return await res.json();
 };
+
 export function isText(mime) {
   if (mime && mime.startsWith("text")) {
     return true;

@@ -1,4 +1,4 @@
-import { 界面状态 } from '../../../util/statusWrap.js'
+import { 界面状态 } from '../util/statusWrap.js'
 import {自定义菜单原型} from '../customMenu.js'
 let 图片菜单 = new 自定义菜单原型()
 

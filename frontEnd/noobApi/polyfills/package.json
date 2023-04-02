@@ -1,8 +1,9 @@
 {
-  "name": "noob-siyuan-polyfill",
+  "name": "@siyuan-community/noob-polyfills",
   "version": "1.0.0",
   "description": "让思源的一些文件操作稍微容易一点的包",
   "main": "fs.js",
+  "module":"fs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
