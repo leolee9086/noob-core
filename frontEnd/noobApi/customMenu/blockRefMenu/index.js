@@ -1,4 +1,4 @@
-import { 界面状态 } from '../../status/index.js'
+import { 界面状态 } from '../../../util/statusWrap.js'
 import {获取最近上级块id} from '../../util/dom.js'
 import {自定义菜单原型} from '../customMenu.js'
 let 引用块菜单 = new 自定义菜单原型()

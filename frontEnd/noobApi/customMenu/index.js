@@ -25,6 +25,20 @@ let 自定义菜单 = {
   rawMenu: window.siyuan.menus.menu,
 };
 let popup = window.siyuan.menus.menu.popup;
+//避免重复加载自定义菜单,新旧版混入暂时还没有实现，之后会实现新版菜单对旧版的混入
+if(!window._noobInternalRegistry){
+  window._noobInternalRegistry=[]
+  window._noobInternalRegistry.push({
+    moduleName:'customMenu',
+    version:"1.0.1",
+    value:自定义菜单
+  })
+} else {
+  let 现有自定义菜单 = window._noobInternalRegistry.find(item=>{
+      return item&&item.moduleName === 'customMenu'&&item.version==="1.0.1"
+  })
+  现有自定义菜单?自定义菜单 = 现有自定义菜单.value:null
+}
 //这里...args的含义是解构赋值
 window.siyuan.menus.menu.popup = (options, isLeft, isCustom) => {
   //这里我们就可以为所欲为了,菜单内容这个时候已经渲染完成,所以我们这里对菜单进行的改动都会保留到渲染出来的菜单里面.
@@ -46,7 +60,7 @@ window.siyuan.menus.menu.popup = (options, isLeft, isCustom) => {
     try {
       for (let 菜单名 in 自定义菜单) {
         if (
-          alias.indexOf(菜单名) <= 0 &&
+          alias.indexOf(菜单名) < 0 &&
           自定义菜单[菜单名].判断函数 &&
           自定义菜单[菜单名].判断函数() &&
           菜单名 !== "当前菜单"

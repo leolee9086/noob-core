@@ -15,13 +15,24 @@ export function 展平树(tree){
     flatten(tree)
     return array
 }
-export function 重复执行直到返回(函数,间隔,警告){
+export async function 重复执行直到返回(func) {
+  let result;
+  const DELAY_MS = 500; // 设置等待时间为 10ms
+  do {
+    result = await func();
+    if (result === undefined) {
+      await new Promise(resolve => setTimeout(resolve, DELAY_MS));
+    }
+  } while (result === undefined);
+  return result;
+}
+/*export function 重复执行直到返回(函数,间隔,警告){
     let 执行次数 =0 
     return new Promise((resolve, reject) => {
         if(!间隔){
             间隔 = 500
         }
-        let 工具函数 = setInterval(async() => {
+        let 工具函数 = setTimeout(async() => {
             try{
                 执行次数+=1
                 if(执行次数>10){
@@ -41,4 +52,4 @@ export function 重复执行直到返回(函数,间隔,警告){
             }
         }, 间隔);
     })
-}
+}*/

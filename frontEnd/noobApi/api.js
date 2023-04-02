@@ -1,7 +1,5 @@
-import block from "./util/blocks.js";
 import 核心api from "./util/kernelApi.js";
 import 自定义菜单 from "./customMenu/index.js";
-import 添加自定义随机背景图 from "./customBackground/index.js";
 import { 注册自定义题图按钮,反注册自定义题图按钮 } from "./customBackground/index.js";
 import 自定义悬浮工具栏 from "./customEditorToolbar/index.js";
 import 自定义窗口工具栏 from "./customToolbar/index.js";
@@ -30,8 +28,6 @@ currentThemeURL = currentThemeURL
 let noobApi = {
   自定义菜单: 自定义菜单,
   menus: 自定义菜单,
-  内容块: block,
-  block: block,
   编辑器: {
     自定义悬浮工具栏: 自定义悬浮工具栏,
     注册自定义题图按钮,

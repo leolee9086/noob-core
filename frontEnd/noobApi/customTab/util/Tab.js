@@ -3,7 +3,7 @@ let tab;
 export function 展平Layout() {
   let array = [];
   function flatten(tree) {
-    if (tree.children && tree.children.forEach) {
+    if (tree&&tree.children && tree.children.forEach) {
       tree.children.forEach((item) => {
         array.push(item);
         if (item.children && tree.children.forEach) {

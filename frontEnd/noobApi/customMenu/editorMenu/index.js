@@ -1,4 +1,4 @@
-import { 界面状态 } from '../../status/index.js'
+import { 界面状态 } from '../../../util/statusWrap.js'
 import {自定义菜单原型} from '../customMenu.js'
 let 编辑器菜单 = new 自定义菜单原型()
 
@@ -19,7 +19,7 @@ function 判断是否编辑器菜单(判定元素) {
                 return 判断是否编辑器菜单(判定元素.parentElement)
             case 'DIV':
                 if (判定元素.classList && 判定元素.classList.contains('protyle-title')) {
-                    菜单状态.当前块id = 判定元素.parentElement.querySelector('.protyle-background').getAttribute('data-node-id')
+                    编辑器菜单.菜单状态.当前块id = 判定元素.parentElement.querySelector('.protyle-background').getAttribute('data-node-id')
                 }
                 return 判定元素.classList && 判定元素.classList.contains('protyle-title')
         }

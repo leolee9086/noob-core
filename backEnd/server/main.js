@@ -2,7 +2,7 @@ import { noob核心后端服务端口号,获取可用端口号,写入端口记�
 import {wss} from  "./util/ws.js"
 import { addEventBridge } from "./eventBridge/serverSide.js";
 import EventBridge from "./eventBridge/index.js";
-import { 显示状态消息 } from "./status/index.js";
+import { 显示状态消息 } from "./../util/statusWrap.js";
 import { requireDep,noobCorePath } from "./util/requirePolyfill.js";
 import {loadCoreServicies} from '../serviciesHandler/index.js'
 let express = requireDep('express')

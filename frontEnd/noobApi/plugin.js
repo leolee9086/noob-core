@@ -1,5 +1,6 @@
 import fs from "./polyfills/fs.js";
-import { frontEndApi } from "siyuan-noob";
+import { frontEndApi } from "./index.js";
+//import 获取语言配置 from './utilFront/index.js'
 let 接口注册表 = [];
 export class Plugin {
   constructor() {
@@ -54,6 +55,7 @@ export class Plugin {
           },
           false
         );
+        //因为是注册到帮助菜单，所以这里需要将它的顶部上移一下，避免菜单下部超出边界
         setTimeout(() => {
           window.siyuan.menus.menu.element.style.top =
             parseInt(window.siyuan.menus.menu.element.style.top) -
