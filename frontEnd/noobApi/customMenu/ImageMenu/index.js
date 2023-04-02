@@ -1,4 +1,4 @@
-import { 界面状态 } from '../../status/index.js'
+import { 界面状态 } from '../../../util/statusWrap.js'
 import {自定义菜单原型} from '../customMenu.js'
 let 图片菜单 = new 自定义菜单原型()
 
@@ -14,7 +14,7 @@ function 判断是否图片菜单(判定元素) {
                 return 判断是否图片菜单(判定元素.parentElement)
             case 'SPAN':
                 if(判定元素.dataset&&判定元素.dataset.type=='img'&&判定元素.classList.value=='img'){
-                    菜单状态.图片容器 = 判定元素.querySelector('img')
+                    图片菜单.菜单状态.图片容器 = 判定元素.querySelector('img')
                     return true 
                 }
             else return 判断是否图片菜单(判定元素.parentElement)                
