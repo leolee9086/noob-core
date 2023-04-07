@@ -1,6 +1,6 @@
 {
   "name": "siyuan-noob",
-  "version": "1.3.4",
+  "version": "1.3.14",
   "description": "noob的前端模块,可以不依赖后端使用,插件可以简单地自我管理",
   "main": "index.js",
   "module":"index.js",

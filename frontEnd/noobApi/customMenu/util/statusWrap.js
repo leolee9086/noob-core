@@ -1,4 +1,3 @@
-console.log(import.meta.url)
 let uiStatusURL =import.meta.resolve('../../status/index.js')
 
 if(import.meta.url.indexOf('esm.sh')){

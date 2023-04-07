@@ -7,37 +7,46 @@ import { 引用块菜单 } from "./blockRefMenu/index.js";
 import { 状态栏帮助菜单 } from "./statusHelpMenu/index.js";
 
 import { 批量渲染自定义菜单 } from "./util/render.js";
-let 自定义菜单 = {
+let 自定义菜单 = {};
+自定义菜单 = {
   块标菜单,
-  gutterMenu: 块标菜单,
   编辑器菜单,
-  docMenu: 编辑器菜单,
   文档树菜单,
-  treeMenu: 文档树菜单,
   面包屑菜单,
-  breadCrumbMenu: 面包屑菜单,
   图片菜单,
-  imageMenu: 图片菜单,
   引用块菜单,
-  blockrefMenu: 引用块菜单,
   状态栏帮助菜单,
-  helpMenu: 状态栏帮助菜单,
+
   rawMenu: window.siyuan.menus.menu,
 };
+自定义菜单.gutterMenu = 自定义菜单.块标菜单;
+自定义菜单.docMenu = 自定义菜单.编辑器菜单;
+自定义菜单.treeMenu = 自定义菜单.文档树菜单;
+自定义菜单.breadCrumbMenu = 自定义菜单.面包屑菜单;
+自定义菜单.imageMenu = 自定义菜单.图片菜单;
+自定义菜单.blockrefMenu = 自定义菜单.引用块菜单;
+自定义菜单.helpMenu = 自定义菜单.状态栏帮助菜单;
+
 let popup = window.siyuan.menus.menu.popup;
 //避免重复加载自定义菜单,新旧版混入暂时还没有实现，之后会实现新版菜单对旧版的混入
-if(!window._noobInternalRegistry){
-  window._noobInternalRegistry=[]
+if (!window._noobInternalRegistry) {
+  window._noobInternalRegistry = [];
   window._noobInternalRegistry.push({
-    moduleName:'customMenu',
-    version:"1.0.1",
-    value:自定义菜单
-  })
+    moduleName: "customMenu",
+    version: "1.0.6",
+    value: 自定义菜单,
+  });
 } else {
-  let 现有自定义菜单 = window._noobInternalRegistry.find(item=>{
-      return item&&item.moduleName === 'customMenu'&&item.version==="1.0.1"
-  })
-  现有自定义菜单?自定义菜单 = 现有自定义菜单.value:null
+  let 现有自定义菜单 = window._noobInternalRegistry.find((item) => {
+    return item && item.moduleName === "customMenu" && item.version === "1.0.6";
+  });
+  现有自定义菜单
+    ? (自定义菜单 = 现有自定义菜单.value)
+    : window._noobInternalRegistry.push({
+        moduleName: "customMenu",
+        version: "1.0.6",
+        value: 自定义菜单,
+      });
 }
 //这里...args的含义是解构赋值
 window.siyuan.menus.menu.popup = (options, isLeft, isCustom) => {
@@ -59,12 +68,14 @@ window.siyuan.menus.menu.popup = (options, isLeft, isCustom) => {
   if (!isCustom) {
     try {
       for (let 菜单名 in 自定义菜单) {
+
         if (
           alias.indexOf(菜单名) < 0 &&
           自定义菜单[菜单名].判断函数 &&
           自定义菜单[菜单名].判断函数() &&
           菜单名 !== "当前菜单"
         ) {
+
           自定义菜单.当前菜单 = 自定义菜单[菜单名];
           批量渲染自定义菜单(自定义菜单[菜单名].待渲染菜单项目数组);
         }

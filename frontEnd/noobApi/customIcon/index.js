@@ -1,3 +1,4 @@
+if(!window.parent.document.querySelector("#noobIcon")){
 window.parent.document.body.insertAdjacentHTML(
     "afterbegin",
     `<svg 
@@ -30,7 +31,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   </symbol>
 </defs>
 </svg>`)
-
+}
 export default function   注册图标(图标设置) {
     let naive图标元素 = window.parent.document.querySelector("#noobIcon");
     let viewBox = 图标设置.viewBox || "0 0 1024 1024";

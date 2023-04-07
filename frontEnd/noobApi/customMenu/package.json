@@ -1,6 +1,6 @@
 {
   "name": "@siyuan-community/noob-custommenu",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "noob前端的菜单原子模块",
   "main": "index.js",
   "scripts": {

@@ -69,7 +69,6 @@ let 自定义窗口工具栏 = {
 };
 function insertAfter(newElement, targetElement) {
   var parent = targetElement.parentNode;
-
   if (parent.lastChild == targetElement) {
     parent.appendChild(newElement);
   } else {
