@@ -1,5 +1,5 @@
 import { DOM监听器 } from "../util/DOMwatcher.js";
-import { 注册表 } from "../commonStruct/registry.ts";
+import { 注册表 } from "../commonStruct/registry.js";
 let 题图按钮注册表 = new 注册表('customBackGroundButton')
 export function 反注册自定义题图按钮(按钮选项) {
   //不要直接给按钮选项赋值了,可能会被打死的

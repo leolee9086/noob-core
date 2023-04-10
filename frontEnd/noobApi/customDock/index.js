@@ -123,14 +123,5 @@ class customDock  {
   }
 
 }
-let leftDock= new customDock(
-    window.siyuan.layout.leftDock
-)
-leftDock.addCustom({
-  type:'custom',
-  index:'0',
-  label:'测试',
-  render:()=>{console.log('test')},
-  icon:'iconTags'
-})
-export {leftDock as leftDock}
+
+export {customDock as customDock}

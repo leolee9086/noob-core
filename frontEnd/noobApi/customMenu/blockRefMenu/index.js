@@ -6,7 +6,7 @@ function 判断是否引用块菜单(判定元素) {
     if (!判定元素) {
         判定元素 = 界面状态.鼠标状态.最后鼠标点击元素
     }
-    if (判定元素) {
+    if (判定元素&&判定元素.parentElement&&判定元素!==判定元素.parentElement) {
         switch (判定元素.tagName) {
             case 'SPAN':
                 引用块菜单.菜单状态.引用目标id= 判定元素.getAttribute('data-id')

@@ -5,7 +5,7 @@ function 判断状态栏帮助菜单(判定元素) {
     if (!判定元素) {
         判定元素 = 界面状态.鼠标状态.最后鼠标点击元素
     }
-    if (判定元素) {
+    if (判定元素&&判定元素.parentElement&&判定元素!==判定元素.parentElement) {
         switch (判定元素.tagName) {
             case 'use':
                 return 判断状态栏帮助菜单(判定元素.parentElement)

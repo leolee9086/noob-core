@@ -6,7 +6,7 @@ function 判断是否编辑器菜单(判定元素) {
     if (!判定元素) {
         判定元素 = 界面状态.鼠标状态.最后鼠标点击元素
     }
-    if (判定元素) {
+    if (判定元素&&判定元素.parentElement&&判定元素!==判定元素.parentElement) {
         switch (判定元素.tagName) {
             case 'use':
                 return 判断是否编辑器菜单(判定元素.parentElement)
@@ -14,7 +14,6 @@ function 判断是否编辑器菜单(判定元素) {
                 return 判断是否编辑器菜单(判定元素.parentElement)
             case 'SPAN':
                 return 判断是否编辑器菜单(判定元素.parentElement)
-
             case 'BUTTON':
                 return 判断是否编辑器菜单(判定元素.parentElement)
             case 'DIV':

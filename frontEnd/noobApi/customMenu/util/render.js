@@ -68,10 +68,19 @@ function 渲染自定义菜单(菜单项目) {
   插入菜单元素(菜单元素);
 }
 function 插入菜单元素(菜单项目元素) {
-  window.top.window.siyuan.menus.menu.append(菜单项目元素);
+  window.top.siyuan.menus.menu.append(菜单项目元素);
 }
 export function 批量渲染自定义菜单(待渲染菜单项目数组) {
   待渲染菜单项目数组.forEach((菜单项目) => {
+    if (
+      window.siyuan.menus.menu.element.querySelector(
+        `[data-item-id="${菜单项目.id}"]`
+      )
+    ) {
+      window.siyuan.menus.menu.element
+        .querySelector(`[data-item-id="${菜单项目.id}"]`)
+        .remove();
+    }
     if (菜单项目.判定函数) {
       菜单项目.判定函数() ? 渲染自定义菜单(菜单项目) : null;
     } else {

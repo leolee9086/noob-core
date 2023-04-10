@@ -3,8 +3,8 @@ import {
   获取工具栏对应range,
   获取工具栏对应块元素,
 } from "./util.js";
-
-let 按钮注册表 = [];
+import { 注册表 } from "../commonStruct/registry.js";
+let 按钮注册表 = new 注册表('悬浮工具栏按钮注册表');
 let 工具栏状态 = {};
 function 生成工具栏按钮元素(按钮配置) {
   if (!按钮配置) {
@@ -22,7 +22,6 @@ function 生成工具栏按钮元素(按钮配置) {
                 <use xlink:href="${按钮配置.图标}"></use>
             </svg>
         </button>
-
 	`;
   //起个名字让它好记一点嘛
   let 按钮元素 = 临时容器.firstElementChild;
@@ -36,7 +35,7 @@ function 生成工具栏按钮元素(按钮配置) {
   return 按钮元素;
 }
 function 插入自定义按钮(工具栏元素) {
-  按钮注册表.forEach((按钮配置) => {
+  按钮注册表.items.forEach((按钮配置) => {
     //避免重复插入嘛
     if (
       按钮配置 &&
@@ -50,33 +49,16 @@ function 插入自定义按钮(工具栏元素) {
 }
 
 function 注册自定义工具栏按钮(按钮配置) {
-  if (!按钮配置) {
-    return;
-  }
-  let 已存在配置 = 按钮注册表.find((待检查项) => {
-    return 待检查项 && 待检查项.id == 按钮配置.id;
-  });
-  if (!已存在配置) {
-    按钮注册表.push(按钮配置);
-  }
+  按钮注册表.regist(按钮配置)
 }
 function 反注册自定义工具栏按钮(按钮配置) {
-  let id = 按钮配置;
-  if (按钮配置 && 按钮配置.id) {
-    id = 按钮配置.id;
-  }
-  按钮注册表.forEach((item, i) => {
-    if (item) {
-      item.id == id ? (按钮注册表[i] = undefined) : null;
-    }
-  });
+  按钮注册表.unregist(按钮配置)
   window.parent.document
-    .querySelectorAll(`button.protyle-toolbar__item[data-item-id="${id}"]`)
+    .querySelectorAll(`button.protyle-toolbar__item[data-item-id="${按钮配置.id}"]`)
     .forEach((el) => {
       el.remove();
     });
 }
-
 function 修改工具栏() {
   let 工具栏元素序列 =
     window.parent.document.querySelectorAll(".protyle-toolbar");
@@ -84,9 +66,7 @@ function 修改工具栏() {
     插入自定义按钮(工具栏元素);
   });
 }
-
 window.parent.document.addEventListener("click", 修改工具栏);
-
 export default {
   注册按钮: 注册自定义工具栏按钮,
   registItem: 注册自定义工具栏按钮,
