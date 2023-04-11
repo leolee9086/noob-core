@@ -123,9 +123,10 @@ export function 注册自定义菜单类型(
                 监听器添加函数=触发目标.on
             }
             监听器添加函数(事件名,(事件)=>{
-                if(判断函数(事件)&&!window.siyuan.menus.menu.element.innerHTML){
+                let 菜单容器=window.siyuan.menus.menu.element.querySelector('.b3-menu__items')
+                if(判断函数(事件)&&菜单容器&&!菜单容器.innerHTML){
                   自定义菜单[类型名].判断函数= ()=>{return true}
-                  window.siyuan.menus.menu.element.innerHTML=(
+                  菜单容器.innerHTML=(
                     `<button class="b3-menu__item b3-menu__item--readonly">&ZeroWidthSpace;
                     <span class="b3-menu__label">
                     ${类型名}

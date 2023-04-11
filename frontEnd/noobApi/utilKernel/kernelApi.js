@@ -1,13 +1,13 @@
 export class  kernelApiList{
     constructor(option={
-        思源伺服ip:"127.0.0.1",
-        思源伺服端口:"6806",
+        思源伺服ip:window.location.hostname,
+        思源伺服端口:'',
         思源伺服协议:"http",
 		apitoken:""
 		
     }){
-    let 思源伺服ip =  option.思源伺服ip||option.siYuanIp||"127.0.0.1"
-    let 思源伺服端口 =  option.思源伺服端口||option.siYuanPort||"6806"
+    let 思源伺服ip =  option.思源伺服ip||option.siYuanIp||'127.0.0.1'
+    let 思源伺服端口 =  option.思源伺服端口||option.siYuanPort||''
     let 思源伺服协议 =  option.思源伺服协议||option.siYuanScheme||"http"
 	this.apitoken =  option.apitoken||""
     this.思源伺服地址 = 思源伺服协议+ "://"+思源伺服ip+":"+思源伺服端口
@@ -376,7 +376,12 @@ export class  kernelApiList{
     }
 }
 
-export default new kernelApiList({思源伺服端口:window.kernelPort||window.location.port})
+export default new kernelApiList({        
+	思源伺服ip:window.location.hostname,
+	思源伺服端口:window.location.port,
+	思源伺服协议:"http",
+	apitoken:""
+})
 
 
 
