@@ -123,7 +123,7 @@ export function 注册自定义菜单类型(
                 监听器添加函数=触发目标.on
             }
             监听器添加函数(事件名,(事件)=>{
-                let 菜单容器=window.siyuan.menus.menu.element.querySelector('.b3-menu__items')
+                let 菜单容器=window.siyuan.menus.menu.element.querySelector('.b3-menu__items')||window.siyuan.menus.menu.element
                 if(判断函数(事件)&&菜单容器&&!菜单容器.innerHTML){
                   自定义菜单[类型名].判断函数= ()=>{return true}
                   菜单容器.innerHTML=(
